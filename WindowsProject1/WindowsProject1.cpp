@@ -120,10 +120,13 @@ namespace WindowsProject1 {
 		{
 			tagPAINTSTRUCT ps;
 			const auto context = BeginPaint(window, &ps);
+			tagRECT rect;
+
+			GetClientRect(window, &rect);
 
 			FillRect(context, &ps.rcPaint, (HBRUSH__ *)(COLOR_WINDOW + 1));
-			drawGrid(context, &ps.rcPaint, -10, 10, -10, 10);
-			drawVectors(context, &ps.rcPaint, -10, 10, -10, 10);
+			drawGrid(context, &rect, -10, 10, -10, 10);
+			drawVectors(context, &rect, -10, 10, -10, 10);
 
 			EndPaint(window, &ps);
 
@@ -143,7 +146,7 @@ namespace WindowsProject1 {
 
 	void drawGrid(HDC__ *context, tagRECT *rect, int minX, int maxX, int minY, int maxY) {
 		for (auto x = minX; x <= maxX; x++) {
-			const auto canvasX = (int)scale((float)minX, (float)maxX, (float)0, (float)(rect->right - rect->left), (float)x);
+			const auto canvasX = (int)scale((float)minX, (float)maxX, (float)rect->left, (float)rect->right, (float)x);
 			BeginPath(context);
 			MoveToEx(context, canvasX, rect->top, 0);
 			LineTo(context, canvasX, rect->bottom);
@@ -152,7 +155,7 @@ namespace WindowsProject1 {
 		}
 
 		for (auto y = minY; y <= maxY; y++) {
-			const auto canvasY = (int)scale((float)minY, (float)maxY, (float)0, (float)(rect->bottom - rect->top), (float)y);
+			const auto canvasY = (int)scale((float)minY, (float)maxY, (float)rect->top, (float)rect->bottom, (float)y);
 			BeginPath(context);
 			MoveToEx(context, rect->left, canvasY, 0);
 			LineTo(context, rect->right, canvasY);
@@ -175,8 +178,8 @@ namespace WindowsProject1 {
 			const auto x = std::get<0>(v);
 			const auto y = std::get<1>(v);
 
-			const auto canvasX = (int)scale((float)minX, (float)maxX, 0, (float)(rect->right - rect->left), x);
-			const auto canvasY = (int)scale((float)minY, (float)maxY, 0, (float)(rect->bottom - rect->top), y);
+			const auto canvasX = (int)scale((float)minX, (float)maxX, (float)rect->left, (float)rect->right, x);
+			const auto canvasY = (int)scale((float)minY, (float)maxY, (float)rect->top, (float)rect->bottom, y);
 
 			BeginPath(context);
 			MoveToEx(context, (rect->left + rect->right) / 2, (rect->top + rect->bottom) / 2, 0);
