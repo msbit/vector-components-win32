@@ -22,6 +22,7 @@ namespace WindowsProject1 {
 	int                initInstance(HINSTANCE__ *, int);
 	long __stdcall    loop(HWND__ *, unsigned int, unsigned int, long);
 	void drawGrid(HDC__*, tagRECT *, int, int, int, int);
+	void drawVectors(HDC__*, tagRECT *, int, int, int, int);
 	float scale(float, float, float, float, float);
 }
 
@@ -155,6 +156,7 @@ namespace WindowsProject1 {
 
 			FillRect(context, &ps.rcPaint, (HBRUSH__ *)(COLOR_WINDOW + 1));
 			drawGrid(context, &ps.rcPaint, -10, 10, -10, 10);
+			drawVectors(context, &ps.rcPaint, -10, 10, -10, 10);
 
 			EndPaint(window, &ps);
 
@@ -190,7 +192,16 @@ namespace WindowsProject1 {
 			EndPath(context);
 			StrokePath(context);
 		}
+	}
 
+	float scale(float inputMin, float inputMax, float outputMin, float outputMax, float input) {
+		const auto inputRange = inputMax - inputMin;
+		const auto outputRange = outputMax - outputMin;
+
+		return ((input - inputMin) * (outputRange / inputRange)) + outputMin;
+	}
+
+	void drawVectors(HDC__ *context, tagRECT *rect, int minX, int maxX, int minY, int maxY) {
 		SelectObject(context, GetStockObject(DC_PEN));
 		SetDCPenColor(context, RGB(255, 0, 0));
 		for (auto v : vectors) {
@@ -206,12 +217,5 @@ namespace WindowsProject1 {
 			EndPath(context);
 			StrokePath(context);
 		}
-	}
-
-	float scale(float inputMin, float inputMax, float outputMin, float outputMax, float input) {
-		const auto inputRange = inputMax - inputMin;
-		const auto outputRange = outputMax - outputMin;
-
-		return ((input - inputMin) * (outputRange / inputRange)) + outputMin;
 	}
 }
