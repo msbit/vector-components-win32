@@ -7,49 +7,44 @@
 #define MAX_LOADSTRING 100
 
 // Global Variables:
-HINSTANCE__ *hInst;                                // current instance
-wchar_t szTitle[MAX_LOADSTRING];                  // The title bar text
-wchar_t szWindowClass[MAX_LOADSTRING];            // the main window class name
+HINSTANCE__ *instance;                                // current instance
+wchar_t title[MAX_LOADSTRING];                  // The title bar text
+wchar_t windowClass[MAX_LOADSTRING];            // the main window class name
 
 // Forward declarations of functions included in this code module:
-unsigned short                MyRegisterClass(HINSTANCE__ *hInstance);
+unsigned short                MyRegisterClass(HINSTANCE__ *);
 int                InitInstance(HINSTANCE__ *, int);
-long CALLBACK    WndProc(HWND__ *, unsigned int, unsigned int, long);
-int CALLBACK    About(HWND__ *, unsigned int, unsigned int, long);
+long __stdcall    WndProc(HWND__ *, unsigned int, unsigned int, long);
+int __stdcall    About(HWND__ *, unsigned int, unsigned int, long);
 
-int APIENTRY wWinMain(_In_ HINSTANCE__ *hInstance,
-	_In_opt_ HINSTANCE__ *hPrevInstance,
-	_In_ wchar_t    *lpCmdLine,
-	_In_ int       nCmdShow)
+int __stdcall wWinMain(_In_ HINSTANCE__ *instance,
+	_In_opt_ HINSTANCE__ *previousInstance,
+	_In_ wchar_t    *cmdLine,
+	_In_ int       cmdShow)
 {
-	UNREFERENCED_PARAMETER(hPrevInstance);
-	UNREFERENCED_PARAMETER(lpCmdLine);
+	UNREFERENCED_PARAMETER(previousInstance);
+	UNREFERENCED_PARAMETER(cmdLine);
 
 	// TODO: Place code here.
 
 	// Initialize global strings
-	LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-	LoadStringW(hInstance, IDC_WINDOWSPROJECT1, szWindowClass, MAX_LOADSTRING);
-	MyRegisterClass(hInstance);
+	LoadStringW(instance, IDS_APP_TITLE, title, MAX_LOADSTRING);
+	LoadStringW(instance, IDC_WINDOWSPROJECT1, windowClass, MAX_LOADSTRING);
+	MyRegisterClass(instance);
 
 	// Perform application initialization:
-	if (!InitInstance(hInstance, nCmdShow))
+	if (!InitInstance(instance, cmdShow))
 	{
 		return 0;
 	}
-
-	HACCEL__ *hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_WINDOWSPROJECT1));
 
 	tagMSG msg;
 
 	// Main message loop:
 	while (GetMessage(&msg, nullptr, 0, 0))
 	{
-		if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
 	}
 
 	return (int)msg.wParam;
@@ -62,7 +57,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE__ *hInstance,
 //
 //  PURPOSE: Registers the window class.
 //
-unsigned short MyRegisterClass(HINSTANCE__ *hInstance)
+unsigned short MyRegisterClass(HINSTANCE__ *instance)
 {
 	tagWNDCLASSEXW wcex;
 
@@ -72,12 +67,12 @@ unsigned short MyRegisterClass(HINSTANCE__ *hInstance)
 	wcex.lpfnWndProc = WndProc;
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;
-	wcex.hInstance = hInstance;
-	wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_WINDOWSPROJECT1));
+	wcex.hInstance = instance;
+	wcex.hIcon = LoadIcon(instance, MAKEINTRESOURCE(IDI_WINDOWSPROJECT1));
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcex.hbrBackground = (HBRUSH__ *)(COLOR_WINDOW + 1);
 	wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_WINDOWSPROJECT1);
-	wcex.lpszClassName = szWindowClass;
+	wcex.lpszClassName = windowClass;
 	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
 	return RegisterClassExW(&wcex);
@@ -93,20 +88,20 @@ unsigned short MyRegisterClass(HINSTANCE__ *hInstance)
 //        In this function, we save the instance handle in a global variable and
 //        create and display the main program window.
 //
-int InitInstance(HINSTANCE__ *hInstance, int nCmdShow)
+int InitInstance(HINSTANCE__ *_instance, int cmdShow)
 {
-	hInst = hInstance; // Store instance handle in our global variable
+	instance = _instance; // Store instance handle in our global variable
 
-	HWND__ *hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+	HWND__ *window = CreateWindowW(windowClass, title, WS_OVERLAPPEDWINDOW,
+		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, _instance, nullptr);
 
-	if (!hWnd)
+	if (!window)
 	{
 		return 0;
 	}
 
-	ShowWindow(hWnd, nCmdShow);
-	UpdateWindow(hWnd);
+	ShowWindow(window, cmdShow);
+	UpdateWindow(window);
 
 	return 1;
 }
@@ -121,60 +116,28 @@ int InitInstance(HINSTANCE__ *hInstance, int nCmdShow)
 //  WM_DESTROY  - post a quit message and return
 //
 //
-long CALLBACK WndProc(HWND__ *hWnd, unsigned int message, unsigned int wParam, long lParam)
+long __stdcall WndProc(HWND__ *window, unsigned int message, unsigned int wParam, long lParam)
 {
 	switch (message)
 	{
 	case WM_COMMAND:
 	{
-		int wmId = LOWORD(wParam);
-		// Parse the menu selections:
-		switch (wmId)
-		{
-		case IDM_ABOUT:
-			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-			break;
-		case IDM_EXIT:
-			DestroyWindow(hWnd);
-			break;
-		default:
-			return DefWindowProc(hWnd, message, wParam, lParam);
-		}
+		return DefWindowProc(window, message, wParam, lParam);
 	}
 	break;
 	case WM_PAINT:
 	{
 		tagPAINTSTRUCT ps;
-		HDC__ *hdc = BeginPaint(hWnd, &ps);
+		HDC__ *hdc = BeginPaint(window, &ps);
 		// TODO: Add any drawing code that uses hdc here...
-		EndPaint(hWnd, &ps);
+		EndPaint(window, &ps);
 	}
 	break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
 	default:
-		return DefWindowProc(hWnd, message, wParam, lParam);
-	}
-	return 0;
-}
-
-// Message handler for about box.
-int CALLBACK About(HWND__ *hDlg, unsigned int message, unsigned int wParam, long lParam)
-{
-	UNREFERENCED_PARAMETER(lParam);
-	switch (message)
-	{
-	case WM_INITDIALOG:
-		return 1;
-
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
-		{
-			EndDialog(hDlg, LOWORD(wParam));
-			return 1;
-		}
-		break;
+		return DefWindowProc(window, message, wParam, lParam);
 	}
 	return 0;
 }
