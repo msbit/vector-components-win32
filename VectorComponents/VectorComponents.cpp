@@ -276,13 +276,13 @@ namespace VectorComponents {
 		if (magnitude > 0) {
 			if (rotate) {
 				auto angle = std::atan2f(std::get<1>(vectorA), std::get<0>(vectorA));
-				angle += 0.01;
+				angle += 0.01f;
 				std::get<0>(vectorA) = std::cosf(angle) * magnitude;
 				std::get<1>(vectorA) = std::sinf(angle) * magnitude;
 			}
 			if (jitter) {
-				std::get<0>(vectorA) += (((float)std::rand() / RAND_MAX) - 0.5) * 0.1;
-				std::get<1>(vectorA) += (((float)std::rand() / RAND_MAX) - 0.5) * 0.1;
+				std::get<0>(vectorA) += (((float)std::rand() / RAND_MAX) - 0.5f) * 0.1f;
+				std::get<1>(vectorA) += (((float)std::rand() / RAND_MAX) - 0.5f) * 0.1f;
 			}
 		}
 
