@@ -1,5 +1,7 @@
 .vs
 Debug
 Release
-WindowsProject1/Debug
-WindowsProject1/Release
+VectorComponents/Debug
+VectorComponents/Release
+VectorComponents/VectorComponents.aps
+VectorComponents/VectorComponents.vcxproj.user
