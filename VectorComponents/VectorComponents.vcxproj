@@ -22,8 +22,9 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{8E837882-E680-4033-AFE0-4F37AAE7B024}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>WindowsProject1</RootNamespace>
+    <RootNamespace>VectorComponents</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <ProjectName>Vector Components</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -157,20 +158,20 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="util.h" />
     <ClInclude Include="vector.h" />
-    <ClInclude Include="WindowsProject1.h" />
+    <ClInclude Include="VectorComponents.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="context.cpp" />
     <ClCompile Include="util.cpp" />
     <ClCompile Include="vector.cpp" />
-    <ClCompile Include="WindowsProject1.cpp" />
+    <ClCompile Include="VectorComponents.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="WindowsProject1.rc" />
+    <ResourceCompile Include="VectorComponents.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico" />
-    <Image Include="WindowsProject1.ico" />
+    <Image Include="VectorComponents.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
