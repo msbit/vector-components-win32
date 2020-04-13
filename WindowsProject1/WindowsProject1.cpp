@@ -1,6 +1,5 @@
 // WindowsProject1.cpp : Defines the entry point for the application.
 //
-
 #include "framework.h"
 #include "WindowsProject1.h"
 
@@ -129,8 +128,10 @@ namespace WindowsProject1 {
 		case WM_PAINT:
 		{
 			tagPAINTSTRUCT ps;
-			HDC__ *hdc = BeginPaint(window, &ps);
-			// TODO: Add any drawing code that uses hdc here...
+			HDC__ *context = BeginPaint(window, &ps);
+
+			FillRect(context, &ps.rcPaint, (HBRUSH__ *)(COLOR_WINDOW + 1));
+
 			EndPaint(window, &ps);
 		}
 		break;
