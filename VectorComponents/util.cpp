@@ -1,7 +1,7 @@
 #include "framework.h"
 
 namespace util {
-	bool outsideRect(const tagRECT *rect, long x, long y) {
+	bool outsideRect(const RECT *rect, long x, long y) {
 		if (x < rect->left) {
 			return true;
 		}

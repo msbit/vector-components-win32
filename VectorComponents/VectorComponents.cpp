@@ -16,9 +16,9 @@
 namespace VectorComponents {
 	enum selected_vector_t { NONE, VECTOR_A, VECTOR_B };
 
-	HINSTANCE__ *instance;                                // current instance
-	wchar_t title[MAX_LOADSTRING];                  // The title bar text
-	wchar_t windowClass[MAX_LOADSTRING];            // the main window class name
+	HINSTANCE instance;
+	WCHAR title[MAX_LOADSTRING];
+	WCHAR windowClass[MAX_LOADSTRING];
 	bool rotate = false;
 	bool jitter = false;
 	bool mouseHeld = false;
@@ -27,17 +27,17 @@ namespace VectorComponents {
 	std::tuple<float, float> vectorA;
 	std::tuple<float, float> vectorB;
 
-	unsigned short                registerWindowClass(HINSTANCE__ *);
-	int                initInstance(HINSTANCE__ *, int);
-	long __stdcall    loop(HWND__ *, unsigned int, unsigned int, long);
-	void drawVectors(HDC__ *, tagRECT *, tagRECT *);
+	ATOM registerWindowClass(HINSTANCE);
+	int initInstance(HINSTANCE, int);
+	LRESULT CALLBACK loop(HWND, UINT, WPARAM, LPARAM);
+	void drawVectors(HDC, RECT *, RECT *);
 	void update();
-	void updateVectorFromMessage(tagRECT *, long);
+	void updateVectorFromMessage(RECT *, LPARAM);
 }
 
-int __stdcall wWinMain(_In_ HINSTANCE__ *instance,
-	_In_opt_ HINSTANCE__ *previousInstance,
-	_In_ wchar_t    *cmdLine,
+int APIENTRY wWinMain(_In_ HINSTANCE instance,
+	_In_opt_ HINSTANCE previousInstance,
+	_In_ LPWSTR    cmdLine,
 	_In_ int       cmdShow)
 {
 	UNREFERENCED_PARAMETER(previousInstance);
@@ -52,7 +52,7 @@ int __stdcall wWinMain(_In_ HINSTANCE__ *instance,
 		return 0;
 	}
 
-	tagMSG message;
+	MSG message;
 
 	while (GetMessage(&message, nullptr, 0, 0))
 	{
@@ -64,11 +64,11 @@ int __stdcall wWinMain(_In_ HINSTANCE__ *instance,
 }
 
 namespace VectorComponents {
-	unsigned short registerWindowClass(HINSTANCE__ *instance)
+	ATOM registerWindowClass(HINSTANCE instance)
 	{
-		tagWNDCLASSEXW wcex;
+		WNDCLASSEX wcex;
 
-		wcex.cbSize = sizeof(tagWNDCLASSEXW);
+		wcex.cbSize = sizeof(WNDCLASSEX);
 
 		wcex.style = CS_HREDRAW | CS_VREDRAW;
 		wcex.lpfnWndProc = loop;
@@ -77,7 +77,7 @@ namespace VectorComponents {
 		wcex.hInstance = instance;
 		wcex.hIcon = LoadIcon(instance, MAKEINTRESOURCE(IDI_VECTORCOMPONENTS));
 		wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
-		wcex.hbrBackground = (HBRUSH__ *)(COLOR_WINDOW + 1);
+		wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 		wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_VECTORCOMPONENTS);
 		wcex.lpszClassName = windowClass;
 		wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
@@ -85,7 +85,7 @@ namespace VectorComponents {
 		return RegisterClassExW(&wcex);
 	}
 
-	int initInstance(HINSTANCE__ *_instance, int cmdShow)
+	int initInstance(HINSTANCE _instance, int cmdShow)
 	{
 		instance = _instance;
 
@@ -105,11 +105,11 @@ namespace VectorComponents {
 		return 1;
 	}
 
-	long __stdcall loop(HWND__ *window, unsigned int message, unsigned int wParam, long lParam)
+	LRESULT CALLBACK loop(HWND window, UINT message, WPARAM wParam, LPARAM lParam)
 	{
-		tagRECT fullClientRect;
-		tagRECT gridClientRect;
-		tagRECT range = { -10, -10, 10, 10 };
+		RECT fullClientRect;
+		RECT gridClientRect;
+		RECT range = { -10, -10, 10, 10 };
 		GetClientRect(window, &fullClientRect);
 		GetClientRect(window, &gridClientRect);
 		const auto padding = 10;
@@ -126,23 +126,23 @@ namespace VectorComponents {
 		{
 		case WM_CREATE:
 		{
-			HINSTANCE__ *instance = ((tagCREATESTRUCTW *)lParam)->hInstance;
+			HINSTANCE instance = ((CREATESTRUCT *)lParam)->hInstance;
 			CreateWindow(L"button", L"A",
 				WS_VISIBLE | WS_CHILD | BS_AUTORADIOBUTTON | WS_GROUP,
 				left, padding + (0 * controlHeight), controlWidth, controlHeight,
-				window, (HMENU__ *)IDC_RADIO_A, instance, nullptr);
+				window, (HMENU)IDC_RADIO_A, instance, nullptr);
 			CreateWindow(L"button", L"B",
 				WS_VISIBLE | WS_CHILD | BS_AUTORADIOBUTTON,
 				left, padding + (1 * controlHeight), controlWidth, controlHeight,
-				window, (HMENU__ *)IDC_RADIO_B, instance, nullptr);
+				window, (HMENU)IDC_RADIO_B, instance, nullptr);
 			CreateWindow(L"button", L"Rotate",
 				WS_VISIBLE | WS_CHILD | BS_AUTOCHECKBOX,
 				left, padding + (2 * controlHeight), controlWidth, controlHeight,
-				window, (HMENU__ *)IDC_CHECK_ROTATE, instance, nullptr);
+				window, (HMENU)IDC_CHECK_ROTATE, instance, nullptr);
 			CreateWindow(L"button", L"Jitter",
 				WS_VISIBLE | WS_CHILD | BS_AUTOCHECKBOX,
 				left, padding + (3 * controlHeight), controlWidth, controlHeight,
-				window, (HMENU__ *)IDC_CHECK_JITTER, instance, nullptr);
+				window, (HMENU)IDC_CHECK_JITTER, instance, nullptr);
 			break;
 		}
 		case WM_COMMAND:
@@ -196,10 +196,10 @@ namespace VectorComponents {
 		}
 		case WM_PAINT:
 		{
-			tagPAINTSTRUCT ps;
+			PAINTSTRUCT ps;
 			const auto context = BeginPaint(window, &ps);
 
-			FillRect(context, &ps.rcPaint, (HBRUSH__ *)(COLOR_WINDOW + 1));
+			FillRect(context, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
 
 			SelectObject(context, GetStockObject(DC_PEN));
 
@@ -232,7 +232,7 @@ namespace VectorComponents {
 		return 0;
 	}
 
-	void drawVectors(HDC__ *context, tagRECT *rect, tagRECT *range) {
+	void drawVectors(HDC context, RECT *rect, RECT *range) {
 		auto vectorASet = false;
 		auto vectorBSet = false;
 		if (std::get<0>(vectorA) != 0. && std::get<1>(vectorA) != 0.) {
@@ -289,7 +289,7 @@ namespace VectorComponents {
 
 	}
 
-	void updateVectorFromMessage(tagRECT *rect, long lParam) {
+	void updateVectorFromMessage(RECT *rect, LPARAM lParam) {
 		const auto canvasX = GET_X_LPARAM(lParam) + rect->left;
 		const auto canvasY = GET_Y_LPARAM(lParam) + rect->top;
 
