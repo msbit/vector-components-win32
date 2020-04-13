@@ -114,6 +114,7 @@ namespace WindowsProject1 {
 		GetClientRect(window, &gridClientRect);
 		const auto padding = 10;
 		const auto controlWidth = 90;
+		const auto controlHeight = 35;
 		const auto left = fullClientRect.right - (controlWidth + padding);
 
 		gridClientRect.left += padding;
@@ -125,7 +126,6 @@ namespace WindowsProject1 {
 		{
 		case WM_CREATE:
 		{
-			const auto controlHeight = 35;
 			HINSTANCE__ *instance = ((tagCREATESTRUCTW *)lParam)->hInstance;
 			CreateWindow(L"button", L"A",
 				WS_VISIBLE | WS_CHILD | BS_AUTORADIOBUTTON | WS_GROUP,
@@ -208,6 +208,14 @@ namespace WindowsProject1 {
 
 			EndPaint(window, &ps);
 
+			break;
+		}
+		case WM_SIZING:
+		{
+			SetWindowPos(GetDlgItem(window, IDC_RADIO_A), HWND_TOP, left, padding + (0 * controlHeight), 0, 0, SWP_NOSIZE);
+			SetWindowPos(GetDlgItem(window, IDC_RADIO_B), HWND_TOP, left, padding + (1 * controlHeight), 0, 0, SWP_NOSIZE);
+			SetWindowPos(GetDlgItem(window, IDC_CHECK_ROTATE), HWND_TOP, left, padding + (2 * controlHeight), 0, 0, SWP_NOSIZE);
+			SetWindowPos(GetDlgItem(window, IDC_CHECK_JITTER), HWND_TOP, left, padding + (3 * controlHeight), 0, 0, SWP_NOSIZE);
 			break;
 		}
 		case WM_TIMER:
