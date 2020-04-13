@@ -43,8 +43,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance,
 	UNREFERENCED_PARAMETER(previousInstance);
 	UNREFERENCED_PARAMETER(cmdLine);
 
-	LoadStringW(instance, IDS_APP_TITLE, VectorComponents::title, MAX_LOADSTRING);
-	LoadStringW(instance, IDC_VECTORCOMPONENTS, VectorComponents::windowClass, MAX_LOADSTRING);
+	LoadString(instance, IDS_APP_TITLE, VectorComponents::title, MAX_LOADSTRING);
+	LoadString(instance, IDC_VECTORCOMPONENTS, VectorComponents::windowClass, MAX_LOADSTRING);
 	VectorComponents::registerWindowClass(instance);
 
 	if (!VectorComponents::initInstance(instance, cmdShow))
@@ -82,14 +82,14 @@ namespace VectorComponents {
 		wcex.lpszClassName = windowClass;
 		wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
-		return RegisterClassExW(&wcex);
+		return RegisterClassEx(&wcex);
 	}
 
 	int initInstance(HINSTANCE _instance, int cmdShow)
 	{
 		instance = _instance;
 
-		const auto window = CreateWindowW(windowClass, title, WS_OVERLAPPEDWINDOW,
+		const auto window = CreateWindow(windowClass, title, WS_OVERLAPPEDWINDOW,
 			CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, _instance, nullptr);
 
 		if (!window)
