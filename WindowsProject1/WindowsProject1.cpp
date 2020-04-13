@@ -233,31 +233,60 @@ namespace WindowsProject1 {
 	}
 
 	void drawVectors(HDC__ *context, tagRECT *rect, tagRECT *range) {
+		auto vectorASet = false;
+		auto vectorBSet = false;
 		if (std::get<0>(vectorA) != 0. && std::get<1>(vectorA) != 0.) {
-			SetDCPenColor(context, RGB(0, 0, 0xFF));
-			context::drawVector(context, rect, vectorA, range);
+			vectorASet = true;
 		}
 
 		if (std::get<0>(vectorB) != 0. && std::get<1>(vectorB) != 0.) {
+			vectorBSet = true;
+		}
+
+		if (vectorASet) {
+			SetDCPenColor(context, RGB(0, 0, 0xFF));
+			context::drawVector(context, rect, vectorA, range);
+			SetDCPenColor(context, RGB(0, 0, 0));
+			context::drawVector(context, rect, vector::normalise(vectorA), range);
+			context::drawVector(context, rect, vector::perp(vectorA), range);
+		}
+
+		if (vectorBSet) {
 			SetDCPenColor(context, RGB(0, 0xFF, 0));
 			context::drawVector(context, rect, vectorB, range);
+			SetDCPenColor(context, RGB(0, 0, 0));
+			context::drawVector(context, rect, vector::normalise(vectorB), range);
+			context::drawVector(context, rect, vector::perp(vectorB), range);
+		}
+
+		if (vectorASet && vectorBSet) {
+			SetDCPenColor(context, RGB(0xFF, 0, 0));
+			const auto perpB = vector::perp(vectorB);
+			const auto normB = vector::normalise(vectorB);
+			const auto aPerpB = vector::dotProduct(vectorA, perpB);
+			const auto aNormB = vector::dotProduct(vectorA, normB);
+			context::drawVector(context, rect, vector::scalarMultiple(perpB, aPerpB), range);
+			context::drawVector(context, rect, vector::scalarMultiple(normB, aNormB), range);
 		}
 	}
 
 	void update() {
-		if (rotate) {
-			const auto magnitude = vector::magnitude(vectorA);
-			if (magnitude > 0) {
+
+		const auto magnitude = vector::magnitude(vectorA);
+		if (magnitude > 0) {
+			if (rotate) {
 				auto angle = std::atan2f(std::get<1>(vectorA), std::get<0>(vectorA));
 				angle += 0.01;
 				std::get<0>(vectorA) = std::cosf(angle) * magnitude;
 				std::get<1>(vectorA) = std::sinf(angle) * magnitude;
 			}
+			if (jitter) {
+				std::get<0>(vectorA) += (((float)std::rand() / RAND_MAX) - 0.5) * 0.1;
+				std::get<1>(vectorA) += (((float)std::rand() / RAND_MAX) - 0.5) * 0.1;
+			}
 		}
 
-		if (jitter) {
 
-		}
 	}
 
 	void updateVectorFromMessage(tagRECT *rect, long lParam) {
