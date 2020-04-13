@@ -6,14 +6,14 @@
 #include <WindowsX.h>
 
 #include "framework.h"
-#include "WindowsProject1.h"
+#include "VectorComponents.h"
 #include "context.h"
 #include "util.h"
 #include "vector.h"
 
 #define MAX_LOADSTRING 100
 
-namespace WindowsProject1 {
+namespace VectorComponents {
 	enum selected_vector_t { NONE, VECTOR_A, VECTOR_B };
 
 	HINSTANCE__ *instance;                                // current instance
@@ -43,11 +43,11 @@ int __stdcall wWinMain(_In_ HINSTANCE__ *instance,
 	UNREFERENCED_PARAMETER(previousInstance);
 	UNREFERENCED_PARAMETER(cmdLine);
 
-	LoadStringW(instance, IDS_APP_TITLE, WindowsProject1::title, MAX_LOADSTRING);
-	LoadStringW(instance, IDC_WINDOWSPROJECT1, WindowsProject1::windowClass, MAX_LOADSTRING);
-	WindowsProject1::registerWindowClass(instance);
+	LoadStringW(instance, IDS_APP_TITLE, VectorComponents::title, MAX_LOADSTRING);
+	LoadStringW(instance, IDC_VECTORCOMPONENTS, VectorComponents::windowClass, MAX_LOADSTRING);
+	VectorComponents::registerWindowClass(instance);
 
-	if (!WindowsProject1::initInstance(instance, cmdShow))
+	if (!VectorComponents::initInstance(instance, cmdShow))
 	{
 		return 0;
 	}
@@ -63,7 +63,7 @@ int __stdcall wWinMain(_In_ HINSTANCE__ *instance,
 	return (int)message.wParam;
 }
 
-namespace WindowsProject1 {
+namespace VectorComponents {
 	unsigned short registerWindowClass(HINSTANCE__ *instance)
 	{
 		tagWNDCLASSEXW wcex;
@@ -75,10 +75,10 @@ namespace WindowsProject1 {
 		wcex.cbClsExtra = 0;
 		wcex.cbWndExtra = 0;
 		wcex.hInstance = instance;
-		wcex.hIcon = LoadIcon(instance, MAKEINTRESOURCE(IDI_WINDOWSPROJECT1));
+		wcex.hIcon = LoadIcon(instance, MAKEINTRESOURCE(IDI_VECTORCOMPONENTS));
 		wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 		wcex.hbrBackground = (HBRUSH__ *)(COLOR_WINDOW + 1);
-		wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_WINDOWSPROJECT1);
+		wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_VECTORCOMPONENTS);
 		wcex.lpszClassName = windowClass;
 		wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
