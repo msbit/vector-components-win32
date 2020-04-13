@@ -1,12 +1,11 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by WindowsProject1.rc
+// Used by VectorComponents.rc
 //
 #define IDC_MYICON                      2
 #define IDD_VECTORCOMPONENTS_DIALOG     102
 #define IDS_APP_TITLE                   103
 #define IDI_VECTORCOMPONENTS            107
-#define IDI_SMALL                       108
 #define IDC_VECTORCOMPONENTS            109
 #define IDC_RADIO_A                     110
 #define IDC_RADIO_B                     111

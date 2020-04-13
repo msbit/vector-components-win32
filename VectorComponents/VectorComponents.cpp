@@ -66,23 +66,20 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance,
 namespace VectorComponents {
 	ATOM registerWindowClass(HINSTANCE instance)
 	{
-		WNDCLASSEX wcex;
+		WNDCLASS wc;
 
-		wcex.cbSize = sizeof(WNDCLASSEX);
+		wc.style = CS_HREDRAW | CS_VREDRAW;
+		wc.lpfnWndProc = loop;
+		wc.cbClsExtra = 0;
+		wc.cbWndExtra = 0;
+		wc.hInstance = instance;
+		wc.hIcon = LoadIcon(instance, MAKEINTRESOURCE(IDI_VECTORCOMPONENTS));
+		wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
+		wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+		wc.lpszMenuName = MAKEINTRESOURCEW(IDC_VECTORCOMPONENTS);
+		wc.lpszClassName = windowClass;
 
-		wcex.style = CS_HREDRAW | CS_VREDRAW;
-		wcex.lpfnWndProc = loop;
-		wcex.cbClsExtra = 0;
-		wcex.cbWndExtra = 0;
-		wcex.hInstance = instance;
-		wcex.hIcon = LoadIcon(instance, MAKEINTRESOURCE(IDI_VECTORCOMPONENTS));
-		wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
-		wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-		wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_VECTORCOMPONENTS);
-		wcex.lpszClassName = windowClass;
-		wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
-
-		return RegisterClassEx(&wcex);
+		return RegisterClass(&wc);
 	}
 
 	int initInstance(HINSTANCE _instance, int cmdShow)
