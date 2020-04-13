@@ -9,8 +9,9 @@ namespace context {
 		for (auto x = range->left; x <= range->right; x++) {
 			const auto canvasX = (int)util::scale((float)range->left, (float)range->right, (float)rect->left, (float)rect->right, (float)x);
 			SetDCPenColor(context, x == 0 ? RGB(0x80, 0x80, 0x80) : RGB(0xD3, 0xD3, 0xD3));
+
 			BeginPath(context);
-			MoveToEx(context, canvasX, rect->top, 0);
+			MoveToEx(context, canvasX, rect->top, nullptr);
 			LineTo(context, canvasX, rect->bottom);
 			EndPath(context);
 			StrokePath(context);
@@ -19,8 +20,9 @@ namespace context {
 		for (auto y = range->top; y <= range->bottom; y++) {
 			const auto canvasY = (int)util::scale((float)range->top, (float)range->bottom, (float)rect->top, (float)rect->bottom, (float)y);
 			SetDCPenColor(context, y == 0 ? RGB(0x80, 0x80, 0x80) : RGB(0xD3, 0xD3, 0xD3));
+
 			BeginPath(context);
-			MoveToEx(context, rect->left, canvasY, 0);
+			MoveToEx(context, rect->left, canvasY, nullptr);
 			LineTo(context, rect->right, canvasY);
 			EndPath(context);
 			StrokePath(context);
@@ -34,7 +36,7 @@ namespace context {
 		const auto canvasY = (int)util::scale((float)range->top, (float)range->bottom, (float)rect->top, (float)rect->bottom, y);
 
 		BeginPath(context);
-		MoveToEx(context, (rect->left + rect->right) / 2, (rect->top + rect->bottom) / 2, 0);
+		MoveToEx(context, (rect->left + rect->right) / 2, (rect->top + rect->bottom) / 2, nullptr);
 		LineTo(context, canvasX, canvasY);
 		EndPath(context);
 		StrokePath(context);

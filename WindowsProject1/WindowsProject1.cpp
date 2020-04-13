@@ -100,7 +100,7 @@ namespace WindowsProject1 {
 		ShowWindow(window, cmdShow);
 		UpdateWindow(window);
 
-		SetTimer(window, 42, 1000 / 25, 0);
+		SetTimer(window, 42, 1000 / 25, nullptr);
 
 		return 1;
 	}
@@ -130,19 +130,19 @@ namespace WindowsProject1 {
 			CreateWindow(L"button", L"A",
 				WS_VISIBLE | WS_CHILD | BS_AUTORADIOBUTTON | WS_GROUP,
 				left, padding + (0 * controlHeight), controlWidth, controlHeight,
-				window, (HMENU__ *)IDC_RADIO_A, instance, 0);
+				window, (HMENU__ *)IDC_RADIO_A, instance, nullptr);
 			CreateWindow(L"button", L"B",
 				WS_VISIBLE | WS_CHILD | BS_AUTORADIOBUTTON,
 				left, padding + (1 * controlHeight), controlWidth, controlHeight,
-				window, (HMENU__ *)IDC_RADIO_B, instance, 0);
+				window, (HMENU__ *)IDC_RADIO_B, instance, nullptr);
 			CreateWindow(L"button", L"Rotate",
 				WS_VISIBLE | WS_CHILD | BS_AUTOCHECKBOX,
 				left, padding + (2 * controlHeight), controlWidth, controlHeight,
-				window, (HMENU__ *)IDC_CHECK_ROTATE, instance, 0);
+				window, (HMENU__ *)IDC_CHECK_ROTATE, instance, nullptr);
 			CreateWindow(L"button", L"Jitter",
 				WS_VISIBLE | WS_CHILD | BS_AUTOCHECKBOX,
 				left, padding + (3 * controlHeight), controlWidth, controlHeight,
-				window, (HMENU__ *)IDC_CHECK_JITTER, instance, 0);
+				window, (HMENU__ *)IDC_CHECK_JITTER, instance, nullptr);
 			break;
 		}
 		case WM_COMMAND:
