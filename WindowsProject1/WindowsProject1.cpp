@@ -18,9 +18,9 @@ namespace WindowsProject1 {
 	std::vector<std::tuple<float, float>> vectors;
 
 	// Forward declarations of functions included in this code module:
-	unsigned short                RegisterWindowClass(HINSTANCE__ *);
-	int                InitInstance(HINSTANCE__ *, int);
-	long __stdcall    Loop(HWND__ *, unsigned int, unsigned int, long);
+	unsigned short                registerWindowClass(HINSTANCE__ *);
+	int                initInstance(HINSTANCE__ *, int);
+	long __stdcall    loop(HWND__ *, unsigned int, unsigned int, long);
 	void drawGrid(HDC__*, tagRECT *, int, int, int, int);
 	float scale(float, float, float, float, float);
 }
@@ -38,24 +38,24 @@ int __stdcall wWinMain(_In_ HINSTANCE__ *instance,
 	// Initialize global strings
 	LoadStringW(instance, IDS_APP_TITLE, WindowsProject1::title, MAX_LOADSTRING);
 	LoadStringW(instance, IDC_WINDOWSPROJECT1, WindowsProject1::windowClass, MAX_LOADSTRING);
-	WindowsProject1::RegisterWindowClass(instance);
+	WindowsProject1::registerWindowClass(instance);
 
 	// Perform application initialization:
-	if (!WindowsProject1::InitInstance(instance, cmdShow))
+	if (!WindowsProject1::initInstance(instance, cmdShow))
 	{
 		return 0;
 	}
 
-	tagMSG msg;
+	tagMSG message;
 
 	// Main message loop:
-	while (GetMessage(&msg, nullptr, 0, 0))
+	while (GetMessage(&message, nullptr, 0, 0))
 	{
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+		TranslateMessage(&message);
+		DispatchMessage(&message);
 	}
 
-	return (int)msg.wParam;
+	return (int)message.wParam;
 }
 
 namespace WindowsProject1 {
@@ -65,14 +65,14 @@ namespace WindowsProject1 {
 	//
 	//  PURPOSE: Registers the window class.
 	//
-	unsigned short RegisterWindowClass(HINSTANCE__ *instance)
+	unsigned short registerWindowClass(HINSTANCE__ *instance)
 	{
 		tagWNDCLASSEXW wcex;
 
 		wcex.cbSize = sizeof(tagWNDCLASSEXW);
 
 		wcex.style = CS_HREDRAW | CS_VREDRAW;
-		wcex.lpfnWndProc = Loop;
+		wcex.lpfnWndProc = loop;
 		wcex.cbClsExtra = 0;
 		wcex.cbWndExtra = 0;
 		wcex.hInstance = instance;
@@ -96,7 +96,7 @@ namespace WindowsProject1 {
 	//        In this function, we save the instance handle in a global variable and
 	//        create and display the main program window.
 	//
-	int InitInstance(HINSTANCE__ *_instance, int cmdShow)
+	int initInstance(HINSTANCE__ *_instance, int cmdShow)
 	{
 		instance = _instance; // Store instance handle in our global variable
 
@@ -126,7 +126,7 @@ namespace WindowsProject1 {
 	//  WM_DESTROY  - post a quit message and return
 	//
 	//
-	long __stdcall Loop(HWND__ *window, unsigned int message, unsigned int wParam, long lParam)
+	long __stdcall loop(HWND__ *window, unsigned int message, unsigned int wParam, long lParam)
 	{
 		switch (message)
 		{
