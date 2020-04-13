@@ -11,13 +11,11 @@
 #define MAX_LOADSTRING 100
 
 namespace WindowsProject1 {
-	// Global Variables:
 	HINSTANCE__ *instance;                                // current instance
 	wchar_t title[MAX_LOADSTRING];                  // The title bar text
 	wchar_t windowClass[MAX_LOADSTRING];            // the main window class name
 	std::vector<std::tuple<float, float>> vectors;
 
-	// Forward declarations of functions included in this code module:
 	unsigned short                registerWindowClass(HINSTANCE__ *);
 	int                initInstance(HINSTANCE__ *, int);
 	long __stdcall    loop(HWND__ *, unsigned int, unsigned int, long);
@@ -34,14 +32,10 @@ int __stdcall wWinMain(_In_ HINSTANCE__ *instance,
 	UNREFERENCED_PARAMETER(previousInstance);
 	UNREFERENCED_PARAMETER(cmdLine);
 
-	// TODO: Place code here.
-
-	// Initialize global strings
 	LoadStringW(instance, IDS_APP_TITLE, WindowsProject1::title, MAX_LOADSTRING);
 	LoadStringW(instance, IDC_WINDOWSPROJECT1, WindowsProject1::windowClass, MAX_LOADSTRING);
 	WindowsProject1::registerWindowClass(instance);
 
-	// Perform application initialization:
 	if (!WindowsProject1::initInstance(instance, cmdShow))
 	{
 		return 0;
@@ -49,7 +43,6 @@ int __stdcall wWinMain(_In_ HINSTANCE__ *instance,
 
 	tagMSG message;
 
-	// Main message loop:
 	while (GetMessage(&message, nullptr, 0, 0))
 	{
 		TranslateMessage(&message);
@@ -60,12 +53,6 @@ int __stdcall wWinMain(_In_ HINSTANCE__ *instance,
 }
 
 namespace WindowsProject1 {
-
-	//
-	//  FUNCTION: RegisterWindowClass()
-	//
-	//  PURPOSE: Registers the window class.
-	//
 	unsigned short registerWindowClass(HINSTANCE__ *instance)
 	{
 		tagWNDCLASSEXW wcex;
@@ -87,19 +74,9 @@ namespace WindowsProject1 {
 		return RegisterClassExW(&wcex);
 	}
 
-	//
-	//   FUNCTION: InitInstance(HINSTANCE, int)
-	//
-	//   PURPOSE: Saves instance handle and creates main window
-	//
-	//   COMMENTS:
-	//
-	//        In this function, we save the instance handle in a global variable and
-	//        create and display the main program window.
-	//
 	int initInstance(HINSTANCE__ *_instance, int cmdShow)
 	{
-		instance = _instance; // Store instance handle in our global variable
+		instance = _instance;
 
 		const auto window = CreateWindowW(windowClass, title, WS_OVERLAPPEDWINDOW,
 			CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, _instance, nullptr);
@@ -117,16 +94,6 @@ namespace WindowsProject1 {
 		return 1;
 	}
 
-	//
-	//  FUNCTION: Loop(HWND, UINT, WPARAM, LPARAM)
-	//
-	//  PURPOSE: Processes messages for the main window.
-	//
-	//  WM_COMMAND  - process the application menu
-	//  WM_PAINT    - Paint the main window
-	//  WM_DESTROY  - post a quit message and return
-	//
-	//
 	long __stdcall loop(HWND__ *window, unsigned int message, unsigned int wParam, long lParam)
 	{
 		switch (message)
