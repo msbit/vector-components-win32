@@ -117,7 +117,7 @@ namespace VectorComponents {
 		gridClientRect.left += padding;
 		gridClientRect.right -= (controlWidth + padding);
 		gridClientRect.top += padding;
-		gridClientRect.bottom += padding;
+		gridClientRect.bottom -= padding;
 
 		switch (message)
 		{
@@ -287,8 +287,8 @@ namespace VectorComponents {
 	}
 
 	void updateVectorFromMessage(RECT *rect, LPARAM lParam) {
-		const auto canvasX = GET_X_LPARAM(lParam) + rect->left;
-		const auto canvasY = GET_Y_LPARAM(lParam) + rect->top;
+		const auto canvasX = GET_X_LPARAM(lParam);
+		const auto canvasY = GET_Y_LPARAM(lParam);
 
 		const auto x = util::scale((float)rect->left, (float)rect->right, (float)-10, (float)10, (float)canvasX);
 		const auto y = util::scale((float)rect->top, (float)rect->bottom, (float)-10, (float)10, (float)canvasY);
