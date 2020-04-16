@@ -42,9 +42,9 @@ namespace context {
 
 		drawLine(context, { (rect->left + rect->right) / 2,  (rect->top + rect->bottom) / 2 }, { canvasX, canvasY });
 
-		const auto angle = atan2(y, x) + M_PI;
-		const auto ccw = angle + 0.2;
-		const auto cw = angle - 0.2;
+		const auto angle = atan2f(y, x) + (float)M_PI;
+		const auto ccw = angle + 0.2f;
+		const auto cw = angle - 0.2f;
 		const auto ccwX = (int)util::scale((float)range->left, (float)range->right, (float)rect->left, (float)rect->right, x + 0.5f * cosf(ccw));
 		const auto ccwY = (int)util::scale((float)range->top, (float)range->bottom, (float)rect->top, (float)rect->bottom, y + 0.5f * sinf(ccw));
 		const auto cwX = (int)util::scale((float)range->left, (float)range->right, (float)rect->left, (float)rect->right, x + 0.5f * cosf(cw));
