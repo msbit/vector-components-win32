@@ -198,6 +198,7 @@ namespace VectorComponents {
 
 			FillRect(context, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
 
+			SelectObject(context, GetStockObject(DC_BRUSH));
 			SelectObject(context, GetStockObject(DC_PEN));
 
 			context::drawGrid(context, &gridClientRect, &range);
@@ -242,22 +243,27 @@ namespace VectorComponents {
 
 		if (vectorASet) {
 			SetDCPenColor(context, RGB(0, 0, 0xFF));
+			SetDCBrushColor(context, RGB(0, 0, 0xFF));
 			context::drawVector(context, rect, vectorA, range);
 			SetDCPenColor(context, RGB(0, 0, 0));
+			SetDCBrushColor(context, RGB(0, 0, 0));
 			context::drawVector(context, rect, vector::normalise(vectorA), range);
 			context::drawVector(context, rect, vector::perp(vectorA), range);
 		}
 
 		if (vectorBSet) {
 			SetDCPenColor(context, RGB(0, 0xFF, 0));
+			SetDCBrushColor(context, RGB(0, 0xFF, 0));
 			context::drawVector(context, rect, vectorB, range);
 			SetDCPenColor(context, RGB(0, 0, 0));
+			SetDCBrushColor(context, RGB(0, 0, 0));
 			context::drawVector(context, rect, vector::normalise(vectorB), range);
 			context::drawVector(context, rect, vector::perp(vectorB), range);
 		}
 
 		if (vectorASet && vectorBSet) {
 			SetDCPenColor(context, RGB(0xFF, 0, 0));
+			SetDCBrushColor(context, RGB(0xFF, 0, 0));
 			const auto perpB = vector::perp(vectorB);
 			const auto normB = vector::normalise(vectorB);
 			const auto aPerpB = vector::dotProduct(vectorA, perpB);
