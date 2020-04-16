@@ -232,11 +232,11 @@ namespace VectorComponents {
 	void drawVectors(HDC context, RECT *rect, RECT *range) {
 		auto vectorASet = false;
 		auto vectorBSet = false;
-		if (std::get<0>(vectorA) != 0. && std::get<1>(vectorA) != 0.) {
+		if (std::get<0>(vectorA) != 0. || std::get<1>(vectorA) != 0.) {
 			vectorASet = true;
 		}
 
-		if (std::get<0>(vectorB) != 0. && std::get<1>(vectorB) != 0.) {
+		if (std::get<0>(vectorB) != 0. || std::get<1>(vectorB) != 0.) {
 			vectorBSet = true;
 		}
 
