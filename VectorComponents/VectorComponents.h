@@ -3,6 +3,6 @@
 #include "resource.h"
 
 namespace VectorComponents {
-	void drawVectors(HDC, RECT*, RECT*);
+	void drawVectors(ID2D1HwndRenderTarget*, RECT*, RECT*);
 	void updateVectorFromMessage(RECT*, LPARAM);
 }
