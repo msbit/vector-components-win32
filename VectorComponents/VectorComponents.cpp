@@ -3,8 +3,9 @@
 #include <tuple>
 #include <vector>
 
-#include <WindowsX.h>
+#include <windowsx.h>
 
+#include "grid.h"
 #include "framework.h"
 #include "VectorComponents.h"
 #include "context.h"
@@ -30,9 +31,7 @@ namespace VectorComponents {
 	ATOM registerWindowClass(HINSTANCE);
 	int initInstance(HINSTANCE, int);
 	LRESULT CALLBACK loop(HWND, UINT, WPARAM, LPARAM);
-	void drawVectors(HDC, RECT*, RECT*);
 	void update();
-	void updateVectorFromMessage(RECT*, LPARAM);
 }
 
 int APIENTRY wWinMain(_In_ HINSTANCE instance,
@@ -46,6 +45,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance,
 	LoadString(instance, IDS_APP_TITLE, VectorComponents::title, MAX_LOADSTRING);
 	LoadString(instance, IDC_VECTORCOMPONENTS, VectorComponents::windowClass, MAX_LOADSTRING);
 	VectorComponents::registerWindowClass(instance);
+	VectorComponents::grid::registerWindowClass(instance);
 
 	if (!VectorComponents::initInstance(instance, cmdShow))
 	{
@@ -104,20 +104,20 @@ namespace VectorComponents {
 
 	LRESULT CALLBACK loop(HWND window, UINT message, WPARAM wParam, LPARAM lParam)
 	{
-		RECT fullClientRect;
-		RECT gridClientRect;
+		RECT fullRect;
+		RECT gridRect;
 		RECT range = { -10, -10, 10, 10 };
-		GetClientRect(window, &fullClientRect);
-		GetClientRect(window, &gridClientRect);
+		GetClientRect(window, &fullRect);
+		GetClientRect(window, &gridRect);
 		const auto padding = 10;
 		const auto controlWidth = 90;
 		const auto controlHeight = 35;
-		const auto left = fullClientRect.right - (controlWidth + padding);
+		const auto left = fullRect.right - (controlWidth + padding);
 
-		gridClientRect.left += padding;
-		gridClientRect.right -= (controlWidth + padding);
-		gridClientRect.top += padding;
-		gridClientRect.bottom -= padding;
+		gridRect.left += padding;
+		gridRect.right -= (controlWidth + padding);
+		gridRect.top += padding;
+		gridRect.bottom -= padding;
 
 		switch (message)
 		{
@@ -140,6 +140,10 @@ namespace VectorComponents {
 				WS_VISIBLE | WS_CHILD | BS_AUTOCHECKBOX,
 				left, padding + (3 * controlHeight), controlWidth, controlHeight,
 				window, (HMENU)IDC_CHECK_JITTER, instance, nullptr);
+			CreateWindow(L"GRID", L"GRID",
+				WS_VISIBLE | WS_CHILD,
+				gridRect.left, gridRect.top, gridRect.right - gridRect.left, gridRect.bottom - gridRect.top,
+				window, (HMENU)IDC_GRID, instance, nullptr);
 			break;
 		}
 		case WM_COMMAND:
@@ -164,62 +168,18 @@ namespace VectorComponents {
 
 			return DefWindowProc(window, message, wParam, lParam);
 			break;
-		case WM_LBUTTONDOWN:
-			if (util::outsideRect(&gridClientRect, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam))) {
-				break;
-			}
-
-			updateVectorFromMessage(&gridClientRect, lParam);
-
-			mouseHeld = true;
-			break;
-		case WM_MOUSEMOVE:
-			if (!mouseHeld || util::outsideRect(&gridClientRect, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam))) {
-				break;
-			}
-
-			updateVectorFromMessage(&gridClientRect, lParam);
-			break;
-		case WM_LBUTTONUP:
-		{
-			if (util::outsideRect(&gridClientRect, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam))) {
-				break;
-			}
-
-			updateVectorFromMessage(&gridClientRect, lParam);
-
-			mouseHeld = false;
-			break;
-		}
-		case WM_PAINT:
-		{
-			PAINTSTRUCT ps;
-			const auto context = BeginPaint(window, &ps);
-
-			FillRect(context, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
-
-			SelectObject(context, GetStockObject(DC_BRUSH));
-			SelectObject(context, GetStockObject(DC_PEN));
-
-			context::drawGrid(context, &gridClientRect, &range);
-			drawVectors(context, &gridClientRect, &range);
-
-			EndPaint(window, &ps);
-
-			break;
-		}
 		case WM_SIZING:
 		{
 			SetWindowPos(GetDlgItem(window, IDC_RADIO_A), HWND_TOP, left, padding + (0 * controlHeight), 0, 0, SWP_NOSIZE);
 			SetWindowPos(GetDlgItem(window, IDC_RADIO_B), HWND_TOP, left, padding + (1 * controlHeight), 0, 0, SWP_NOSIZE);
 			SetWindowPos(GetDlgItem(window, IDC_CHECK_ROTATE), HWND_TOP, left, padding + (2 * controlHeight), 0, 0, SWP_NOSIZE);
 			SetWindowPos(GetDlgItem(window, IDC_CHECK_JITTER), HWND_TOP, left, padding + (3 * controlHeight), 0, 0, SWP_NOSIZE);
+			SetWindowPos(GetDlgItem(window, IDC_GRID), HWND_TOP, gridRect.left, gridRect.top,
+				gridRect.right - gridRect.left, gridRect.bottom - gridRect.top, 0);
 			break;
 		}
 		case WM_TIMER:
 			update();
-
-			InvalidateRect(window, &gridClientRect, 1);
 			break;
 		case WM_DESTROY:
 			PostQuitMessage(0);
