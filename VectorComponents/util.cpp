@@ -27,7 +27,7 @@ namespace util {
 		va_list argptr;
 		va_start(argptr, format);
 		char buffer[256];
-		sprintf_s(buffer, 256, format, argptr);
+		vsprintf_s(buffer, 256, format, argptr);
 		OutputDebugStringA(buffer);
 	}
 
