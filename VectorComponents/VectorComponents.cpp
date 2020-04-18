@@ -66,18 +66,18 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance,
 namespace VectorComponents {
 	ATOM registerWindowClass(HINSTANCE instance)
 	{
-		WNDCLASS wc;
-
-		wc.style = CS_HREDRAW | CS_VREDRAW;
-		wc.lpfnWndProc = loop;
-		wc.cbClsExtra = 0;
-		wc.cbWndExtra = 0;
-		wc.hInstance = instance;
-		wc.hIcon = LoadIcon(instance, MAKEINTRESOURCE(IDI_VECTORCOMPONENTS));
-		wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
-		wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-		wc.lpszMenuName = MAKEINTRESOURCEW(IDC_VECTORCOMPONENTS);
-		wc.lpszClassName = windowClass;
+		WNDCLASS wc = {
+			.style = CS_HREDRAW | CS_VREDRAW,
+			.lpfnWndProc = loop,
+			.cbClsExtra = 0,
+			.cbWndExtra = 0,
+			.hInstance = instance,
+			.hIcon = LoadIcon(instance, MAKEINTRESOURCE(IDI_VECTORCOMPONENTS)),
+			.hCursor = LoadCursor(nullptr, IDC_ARROW),
+			.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1),
+			.lpszMenuName = MAKEINTRESOURCEW(IDC_VECTORCOMPONENTS),
+			.lpszClassName = windowClass
+		};
 
 		return RegisterClass(&wc);
 	}
