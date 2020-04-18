@@ -14,7 +14,7 @@
 #define MAX_LOADSTRING 100
 
 namespace VectorComponents {
-	enum selected_vector_t { NONE, VECTOR_A, VECTOR_B };
+	enum class selected_vector_t { NONE, VECTOR_A, VECTOR_B };
 
 	HINSTANCE instance;
 	WCHAR title[MAX_LOADSTRING];
@@ -23,7 +23,7 @@ namespace VectorComponents {
 	bool jitter = false;
 	bool mouseHeld = false;
 
-	selected_vector_t selectedVector = NONE;
+	selected_vector_t selectedVector = selected_vector_t::NONE;
 	std::tuple<float, float> vectorA;
 	std::tuple<float, float> vectorB;
 
@@ -146,12 +146,12 @@ namespace VectorComponents {
 			switch (LOWORD(wParam)) {
 			case IDC_RADIO_A:
 				if (IsDlgButtonChecked(window, IDC_RADIO_A)) {
-					selectedVector = VECTOR_A;
+					selectedVector = selected_vector_t::VECTOR_A;
 				}
 				break;
 			case IDC_RADIO_B:
 				if (IsDlgButtonChecked(window, IDC_RADIO_B)) {
-					selectedVector = VECTOR_B;
+					selectedVector = selected_vector_t::VECTOR_B;
 				}
 				break;
 			case IDC_CHECK_ROTATE:
@@ -299,12 +299,12 @@ namespace VectorComponents {
 		const auto x = util::scale((float)rect->left, (float)rect->right, (float)-10, (float)10, (float)canvasX);
 		const auto y = util::scale((float)rect->top, (float)rect->bottom, (float)-10, (float)10, (float)canvasY);
 
-		if (selectedVector == VECTOR_A) {
+		if (selectedVector == selected_vector_t::VECTOR_A) {
 			std::get<0>(vectorA) = x;
 			std::get<1>(vectorA) = y;
 		}
 
-		if (selectedVector == VECTOR_B) {
+		if (selectedVector == selected_vector_t::VECTOR_B) {
 			std::get<0>(vectorB) = x;
 			std::get<1>(vectorB) = y;
 		}
