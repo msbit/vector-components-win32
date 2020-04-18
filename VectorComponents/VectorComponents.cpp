@@ -30,9 +30,9 @@ namespace VectorComponents {
 	ATOM registerWindowClass(HINSTANCE);
 	int initInstance(HINSTANCE, int);
 	LRESULT CALLBACK loop(HWND, UINT, WPARAM, LPARAM);
-	void drawVectors(HDC, RECT *, RECT *);
+	void drawVectors(HDC, RECT*, RECT*);
 	void update();
-	void updateVectorFromMessage(RECT *, LPARAM);
+	void updateVectorFromMessage(RECT*, LPARAM);
 }
 
 int APIENTRY wWinMain(_In_ HINSTANCE instance,
@@ -123,7 +123,7 @@ namespace VectorComponents {
 		{
 		case WM_CREATE:
 		{
-			HINSTANCE instance = ((CREATESTRUCT *)lParam)->hInstance;
+			HINSTANCE instance = ((CREATESTRUCT*)lParam)->hInstance;
 			CreateWindow(L"button", L"A",
 				WS_VISIBLE | WS_CHILD | BS_AUTORADIOBUTTON | WS_GROUP,
 				left, padding + (0 * controlHeight), controlWidth, controlHeight,
@@ -230,7 +230,7 @@ namespace VectorComponents {
 		return 0;
 	}
 
-	void drawVectors(HDC context, RECT *rect, RECT *range) {
+	void drawVectors(HDC context, RECT* rect, RECT* range) {
 		auto vectorASet = false;
 		auto vectorBSet = false;
 		if (std::get<0>(vectorA) != 0. || std::get<1>(vectorA) != 0.) {
@@ -292,7 +292,7 @@ namespace VectorComponents {
 
 	}
 
-	void updateVectorFromMessage(RECT *rect, LPARAM lParam) {
+	void updateVectorFromMessage(RECT* rect, LPARAM lParam) {
 		const auto canvasX = GET_X_LPARAM(lParam);
 		const auto canvasY = GET_Y_LPARAM(lParam);
 

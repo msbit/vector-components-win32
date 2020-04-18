@@ -9,7 +9,7 @@
 #include "util.h"
 
 namespace context {
-	void drawGrid(HDC context, RECT *rect, RECT *range) {
+	void drawGrid(HDC context, RECT* rect, RECT* range) {
 		for (auto x = range->left; x <= range->right; x++) {
 			const auto canvasX = (int)util::scale((float)range->left, (float)range->right, (float)rect->left, (float)rect->right, (float)x);
 			SetDCPenColor(context, x == 0 ? RGB(0x80, 0x80, 0x80) : RGB(0xD3, 0xD3, 0xD3));
@@ -33,7 +33,7 @@ namespace context {
 		StrokePath(context);
 	}
 
-	void drawVector(HDC context, RECT *rect, std::tuple<float, float> vector, RECT *range) {
+	void drawVector(HDC context, RECT* rect, std::tuple<float, float> vector, RECT* range) {
 		const auto x = std::get<0>(vector);
 		const auto y = std::get<1>(vector);
 
