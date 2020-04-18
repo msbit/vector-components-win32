@@ -115,7 +115,7 @@ namespace VectorComponents {
 		const auto left = fullRect.right - (controlWidth + padding);
 
 		gridRect.left += padding;
-		gridRect.right -= (controlWidth + padding);
+		gridRect.right -= (controlWidth + (2 * padding));
 		gridRect.top += padding;
 		gridRect.bottom -= padding;
 
@@ -178,6 +178,7 @@ namespace VectorComponents {
 			return DefWindowProc(window, message, wParam, lParam);
 			break;
 		}
+		case WM_SIZE:
 		case WM_SIZING:
 		{
 			SetWindowPos(GetDlgItem(window, IDC_RADIO_A), HWND_TOP, left, padding + (0 * controlHeight), 0, 0, SWP_NOSIZE);
