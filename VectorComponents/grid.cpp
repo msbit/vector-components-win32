@@ -1,9 +1,11 @@
 #include <windowsx.h>
+#include <d2d1.h>
+#pragma comment(lib, "d2d1")
 
 #include "framework.h"
 
-#include "context.h"
 #include "grid.h"
+#include "renderTarget.h"
 #include "resource.h"
 #include "util.h"
 #include "VectorComponents.h"
@@ -11,6 +13,10 @@
 bool VectorComponents::grid::mouseHeld;
 
 namespace VectorComponents::grid {
+	ID2D1Factory* factory;
+	ID2D1HwndRenderTarget* renderTarget;
+	ID2D1SolidColorBrush* brush;
+
 	LRESULT CALLBACK loop(HWND, UINT, WPARAM, LPARAM);
 
 	ATOM registerWindowClass(HINSTANCE instance)
@@ -43,6 +49,25 @@ namespace VectorComponents::grid {
 
 		switch (message)
 		{
+		case WM_CREATE:
+		{
+			D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &factory);
+			auto size = D2D1::SizeU(rect.right, rect.bottom);
+			factory->CreateHwndRenderTarget(
+				D2D1::RenderTargetProperties(),
+				D2D1::HwndRenderTargetProperties(window, size),
+				&renderTarget);
+			const auto color = D2D1::ColorF(1.0f, 1.0f, 0);
+			renderTarget->CreateSolidColorBrush(color, &brush);
+			break;
+		}
+		case WM_DESTROY:
+		{
+			brush->Release();
+			renderTarget->Release();
+			factory->Release();
+			break;
+		}
 		case WM_LBUTTONDOWN:
 		{
 			if (util::outsideRect(&rect, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam))) {
@@ -79,16 +104,25 @@ namespace VectorComponents::grid {
 			PAINTSTRUCT ps;
 			const auto context = BeginPaint(window, &ps);
 
-			FillRect(context, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
+			renderTarget->BeginDraw();
 
-			SelectObject(context, GetStockObject(DC_BRUSH));
-			SelectObject(context, GetStockObject(DC_PEN));
+			renderTarget->Clear(D2D1::ColorF(GetSysColor(COLOR_WINDOW)));
 
-			context::drawGrid(context, &rect, &range);
-			VectorComponents::drawVectors(context, &rect, &range);
+			renderTarget::drawGrid(renderTarget, &rect, &range);
+			VectorComponents::drawVectors(renderTarget, &rect, &range);
+
+			renderTarget->EndDraw();
 
 			EndPaint(window, &ps);
 
+			break;
+		}
+		case WM_SIZE:
+		case WM_SIZING:
+		{
+			auto size = D2D1::SizeU(rect.right, rect.bottom);
+
+			renderTarget->Resize(size);
 			break;
 		}
 		case WM_TIMER:

@@ -4,11 +4,13 @@
 #include <vector>
 
 #include <windowsx.h>
+#include <d2d1.h>
+#pragma comment(lib, "d2d1")
 
 #include "grid.h"
 #include "framework.h"
 #include "VectorComponents.h"
-#include "context.h"
+#include "renderTarget.h"
 #include "util.h"
 #include "vector.h"
 
@@ -209,7 +211,7 @@ namespace VectorComponents {
 		return 0;
 	}
 
-	void drawVectors(HDC context, RECT* rect, RECT* range) {
+	void drawVectors(ID2D1HwndRenderTarget* renderTarget, RECT* rect, RECT* range) {
 		auto vectorASet = false;
 		auto vectorBSet = false;
 		if (std::get<0>(vectorA) != 0. || std::get<1>(vectorA) != 0.) {
@@ -221,34 +223,24 @@ namespace VectorComponents {
 		}
 
 		if (vectorASet) {
-			SetDCPenColor(context, RGB(0, 0, 0xFF));
-			SetDCBrushColor(context, RGB(0, 0, 0xFF));
-			context::drawVector(context, rect, vectorA, range);
-			SetDCPenColor(context, RGB(0, 0, 0));
-			SetDCBrushColor(context, RGB(0, 0, 0));
-			context::drawVector(context, rect, vector::normalise(vectorA), range);
-			context::drawVector(context, rect, vector::perp(vectorA), range);
+			renderTarget::drawVector(renderTarget, rect, vectorA, range, { 0.0f, 0.0f, 1.0f });
+			renderTarget::drawVector(renderTarget, rect, vector::normalise(vectorA), range, { 0.0f, 0.0f, 0.0f });
+			renderTarget::drawVector(renderTarget, rect, vector::perp(vectorA), range, { 0.0f, 0.0f, 0.0f });
 		}
 
 		if (vectorBSet) {
-			SetDCPenColor(context, RGB(0, 0xFF, 0));
-			SetDCBrushColor(context, RGB(0, 0xFF, 0));
-			context::drawVector(context, rect, vectorB, range);
-			SetDCPenColor(context, RGB(0, 0, 0));
-			SetDCBrushColor(context, RGB(0, 0, 0));
-			context::drawVector(context, rect, vector::normalise(vectorB), range);
-			context::drawVector(context, rect, vector::perp(vectorB), range);
+			renderTarget::drawVector(renderTarget, rect, vectorB, range, { 0.0f, 1.0f, 0.0f });
+			renderTarget::drawVector(renderTarget, rect, vector::normalise(vectorB), range, { 0.0f, 0.0f, 0.0f });
+			renderTarget::drawVector(renderTarget, rect, vector::perp(vectorB), range, { 0.0f, 0.0f, 0.0f });
 		}
 
 		if (vectorASet && vectorBSet) {
-			SetDCPenColor(context, RGB(0xFF, 0, 0));
-			SetDCBrushColor(context, RGB(0xFF, 0, 0));
 			const auto perpB = vector::perp(vectorB);
 			const auto normB = vector::normalise(vectorB);
 			const auto aPerpB = vector::dotProduct(vectorA, perpB);
 			const auto aNormB = vector::dotProduct(vectorA, normB);
-			context::drawVector(context, rect, vector::scalarMultiple(perpB, aPerpB), range);
-			context::drawVector(context, rect, vector::scalarMultiple(normB, aNormB), range);
+			renderTarget::drawVector(renderTarget, rect, vector::scalarMultiple(perpB, aPerpB), range, { 1.0f, 0.0f, 0.0f });
+			renderTarget::drawVector(renderTarget, rect, vector::scalarMultiple(normB, aNormB), range, { 1.0f, 0.0f, 0.0f });
 		}
 	}
 
