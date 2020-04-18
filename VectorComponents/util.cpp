@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "framework.h"
 
 namespace util {
@@ -19,6 +21,14 @@ namespace util {
 		}
 
 		return false;
+	}
+
+	void outputDebug(const char* format, ...) {
+		va_list argptr;
+		va_start(argptr, format);
+		char buffer[256];
+		sprintf_s(buffer, 256, format, argptr);
+		OutputDebugStringA(buffer);
 	}
 
 	float scale(float inputMin, float inputMax, float outputMin, float outputMax, float input) {
