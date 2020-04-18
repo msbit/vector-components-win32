@@ -44,6 +44,7 @@ namespace VectorComponents::grid {
 		switch (message)
 		{
 		case WM_LBUTTONDOWN:
+		{
 			if (util::outsideRect(&rect, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam))) {
 				break;
 			}
@@ -52,13 +53,16 @@ namespace VectorComponents::grid {
 
 			mouseHeld = true;
 			break;
+		}
 		case WM_MOUSEMOVE:
+		{
 			if (!mouseHeld || util::outsideRect(&rect, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam))) {
 				break;
 			}
 
 			VectorComponents::updateVectorFromMessage(&rect, lParam);
 			break;
+		}
 		case WM_LBUTTONUP:
 		{
 			if (util::outsideRect(&rect, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam))) {
@@ -88,10 +92,14 @@ namespace VectorComponents::grid {
 			break;
 		}
 		case WM_TIMER:
+		{
 			InvalidateRect(window, &rect, 1);
 			break;
+		}
 		default:
+		{
 			return DefWindowProc(window, message, wParam, lParam);
+		}
 		}
 		return 0;
 	}

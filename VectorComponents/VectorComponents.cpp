@@ -147,27 +147,37 @@ namespace VectorComponents {
 			break;
 		}
 		case WM_COMMAND:
+		{
 			switch (LOWORD(wParam)) {
 			case IDC_RADIO_A:
+			{
 				if (IsDlgButtonChecked(window, IDC_RADIO_A)) {
 					selectedVector = selected_vector_t::VECTOR_A;
 				}
 				break;
+			}
 			case IDC_RADIO_B:
+			{
 				if (IsDlgButtonChecked(window, IDC_RADIO_B)) {
 					selectedVector = selected_vector_t::VECTOR_B;
 				}
 				break;
+			}
 			case IDC_CHECK_ROTATE:
+			{
 				rotate = IsDlgButtonChecked(window, IDC_CHECK_ROTATE);
 				break;
+			}
 			case IDC_CHECK_JITTER:
+			{
 				jitter = IsDlgButtonChecked(window, IDC_CHECK_JITTER);
 				break;
+			}
 			}
 
 			return DefWindowProc(window, message, wParam, lParam);
 			break;
+		}
 		case WM_SIZING:
 		{
 			SetWindowPos(GetDlgItem(window, IDC_RADIO_A), HWND_TOP, left, padding + (0 * controlHeight), 0, 0, SWP_NOSIZE);
@@ -179,15 +189,21 @@ namespace VectorComponents {
 			break;
 		}
 		case WM_TIMER:
+		{
 			update();
 
 			PostMessage(GetDlgItem(window, IDC_GRID), message, wParam, lParam);
 			break;
+		}
 		case WM_DESTROY:
+		{
 			PostQuitMessage(0);
 			break;
+		}
 		default:
+		{
 			return DefWindowProc(window, message, wParam, lParam);
+		}
 		}
 		return 0;
 	}
