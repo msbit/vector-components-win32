@@ -73,7 +73,7 @@ namespace VectorComponents {
 			.hInstance = instance,
 			.hIcon = LoadIcon(instance, MAKEINTRESOURCE(IDI_VECTORCOMPONENTS)),
 			.hCursor = LoadCursor(nullptr, IDC_ARROW),
-			.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1),
+			.hbrBackground = (HBRUSH)COLOR_WINDOW,
 			.lpszMenuName = MAKEINTRESOURCEW(IDC_VECTORCOMPONENTS),
 			.lpszClassName = windowClass
 		};
