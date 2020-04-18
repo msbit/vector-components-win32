@@ -43,9 +43,6 @@ namespace VectorComponents::grid {
 
 		switch (message)
 		{
-		case WM_CREATE:
-			SetTimer(window, 42, 1000 / 25, nullptr);
-			break;
 		case WM_LBUTTONDOWN:
 			if (util::outsideRect(&rect, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam))) {
 				break;

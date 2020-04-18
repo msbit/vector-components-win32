@@ -180,6 +180,8 @@ namespace VectorComponents {
 		}
 		case WM_TIMER:
 			update();
+
+			PostMessage(GetDlgItem(window, IDC_GRID), message, wParam, lParam);
 			break;
 		case WM_DESTROY:
 			PostQuitMessage(0);
