@@ -13,3 +13,5 @@
 #include <malloc.h>
 #include <memory.h>
 #include <tchar.h>
+#include <d2d1.h>
+#pragma comment(lib, "d2d1")

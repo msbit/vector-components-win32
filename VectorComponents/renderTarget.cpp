@@ -1,12 +1,8 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
-
 #include <tuple>
-#include <d2d1.h>
-#pragma comment(lib, "d2d1")
 
 #include "framework.h"
-
 #include "renderTarget.h"
 #include "util.h"
 

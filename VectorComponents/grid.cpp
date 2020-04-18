@@ -1,9 +1,6 @@
 #include <windowsx.h>
-#include <d2d1.h>
-#pragma comment(lib, "d2d1")
 
 #include "framework.h"
-
 #include "grid.h"
 #include "renderTarget.h"
 #include "resource.h"

@@ -1,11 +1,9 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
-
 #include <tuple>
 
-#include "framework.h"
-
 #include "context.h"
+#include "framework.h"
 #include "util.h"
 
 namespace context {
