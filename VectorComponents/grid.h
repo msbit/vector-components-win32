@@ -4,8 +4,16 @@
 
 #define MAX_LOADSTRING 100
 
-namespace VectorComponents::grid {
-	extern bool mouseHeld;
+class GridElement {
+	bool mouseHeld;
+	ID2D1Factory* factory;
+	ID2D1HwndRenderTarget* renderTarget;
+	ID2D1SolidColorBrush* brush;
 
-	ATOM registerWindowClass(HINSTANCE instance);
-}
+public:
+	ATOM RegisterWindowClass(HINSTANCE instance);
+
+private:
+	static LRESULT CALLBACK Loop(HWND, UINT, WPARAM, LPARAM);
+	LRESULT CALLBACK ProcessMessage(HWND, UINT, WPARAM, LPARAM);
+};

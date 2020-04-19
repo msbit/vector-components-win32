@@ -21,7 +21,7 @@ namespace VectorComponents {
 	WCHAR windowClass[MAX_LOADSTRING];
 	bool rotate = false;
 	bool jitter = false;
-	bool mouseHeld = false;
+	GridElement* gridElement;
 
 	selected_vector_t selectedVector = selected_vector_t::NONE;
 	std::tuple<float, float> vectorA;
@@ -44,7 +44,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance,
 	LoadString(instance, IDS_APP_TITLE, VectorComponents::title, MAX_LOADSTRING);
 	LoadString(instance, IDC_VECTORCOMPONENTS, VectorComponents::windowClass, MAX_LOADSTRING);
 	VectorComponents::registerWindowClass(instance);
-	VectorComponents::grid::registerWindowClass(instance);
+	VectorComponents::gridElement = new GridElement();
+	VectorComponents::gridElement->RegisterWindowClass(instance);
 
 	if (!VectorComponents::initInstance(instance, cmdShow))
 	{
@@ -58,6 +59,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance,
 		TranslateMessage(&message);
 		DispatchMessage(&message);
 	}
+
+	delete VectorComponents::gridElement;
 
 	return (int)message.wParam;
 }
@@ -142,7 +145,7 @@ namespace VectorComponents {
 			CreateWindow(L"GRID", L"GRID",
 				WS_VISIBLE | WS_CHILD,
 				gridRect.left, gridRect.top, gridRect.right - gridRect.left, gridRect.bottom - gridRect.top,
-				window, (HMENU)IDC_GRID, instance, nullptr);
+				window, (HMENU)IDC_GRID, instance, VectorComponents::gridElement);
 			break;
 		}
 		case WM_COMMAND:
