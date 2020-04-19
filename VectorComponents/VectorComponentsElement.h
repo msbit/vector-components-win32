@@ -13,6 +13,7 @@ class VectorComponentsElement : BaseWindow<VectorComponentsElement, ATOM> {
 	GridElement* gridElement = nullptr;
 	bool rotate = false;
 	bool jitter = false;
+	HBRUSH backgroundBrush;
 
 	std::tuple<float, float> vectorA;
 	std::tuple<float, float> vectorB;

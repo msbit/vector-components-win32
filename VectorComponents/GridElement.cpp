@@ -8,7 +8,7 @@
 #include "VectorComponentsElement.h"
 
 GridElement::GridElement(HINSTANCE instance) {
-	Register(instance, IDC_GRID, IDI_VECTORCOMPONENTS);
+	Register(instance, IDC_GRID, IDI_VECTORCOMPONENTS, nullptr);
 }
 
 LRESULT GridElement::ProcessMessage(HWND window, UINT message, WPARAM wParam, LPARAM lParam) {

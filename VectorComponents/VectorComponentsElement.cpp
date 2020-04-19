@@ -12,13 +12,16 @@
 #define MAX_LOADSTRING 100
 
 VectorComponentsElement::VectorComponentsElement(HINSTANCE instance) {
-	Register(instance, IDC_VECTORCOMPONENTS, IDI_VECTORCOMPONENTS);
+	backgroundBrush = CreateSolidBrush(RGB(0xFF, 0xFF, 0xFF));
+
+	Register(instance, IDC_VECTORCOMPONENTS, IDI_VECTORCOMPONENTS, backgroundBrush);
 
 	gridElement = new GridElement(instance);
 }
 
 VectorComponentsElement::~VectorComponentsElement() {
 	delete gridElement;
+	DeleteObject(backgroundBrush);
 }
 
 LRESULT CALLBACK VectorComponentsElement::ProcessMessage(HWND window, UINT message, WPARAM wParam, LPARAM lParam) {
@@ -98,6 +101,16 @@ LRESULT CALLBACK VectorComponentsElement::ProcessMessage(HWND window, UINT messa
 		}
 		}
 	}
+	case WM_CTLCOLORSTATIC:
+	{
+		return (LRESULT)backgroundBrush;
+	}
+	case WM_DESTROY:
+	{
+		PostQuitMessage(0);
+
+		return 0;
+	}
 	case WM_SIZE:
 	case WM_SIZING:
 	{
@@ -115,12 +128,6 @@ LRESULT CALLBACK VectorComponentsElement::ProcessMessage(HWND window, UINT messa
 		update();
 
 		PostMessage(GetDlgItem(window, IDC_GRID), message, wParam, lParam);
-
-		return 0;
-	}
-	case WM_DESTROY:
-	{
-		PostQuitMessage(0);
 
 		return 0;
 	}

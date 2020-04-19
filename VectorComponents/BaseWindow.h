@@ -24,7 +24,7 @@ protected:
 		return DefWindowProc(window, message, wParam, lParam);
 	}
 
-	static ATOM Register(HINSTANCE instance, int classId, int iconId) {
+	static ATOM Register(HINSTANCE instance, int classId, int iconId, HBRUSH backgroundBrush) {
 		WCHAR className[100];
 
 		LoadString(instance, classId, className, 100);
@@ -38,6 +38,7 @@ protected:
 			.hIcon = LoadIcon(instance, MAKEINTRESOURCE(iconId)),
 			.hCursor = LoadCursor(nullptr, IDC_ARROW),
 			.hbrBackground = (HBRUSH)COLOR_WINDOW,
+			.hbrBackground = backgroundBrush,
 			.lpszMenuName = MAKEINTRESOURCE(classId),
 			.lpszClassName = className
 		};
