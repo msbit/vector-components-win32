@@ -14,7 +14,5 @@ class GridElement : BaseWindow<GridElement, VectorComponentsElement> {
 
 public:
 	ATOM RegisterWindowClass(HINSTANCE instance);
-
-protected:
-	LRESULT CALLBACK ProcessMessage(HWND, UINT, WPARAM, LPARAM);
+	LRESULT ProcessMessage(HWND, UINT, WPARAM, LPARAM);
 };

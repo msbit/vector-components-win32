@@ -29,7 +29,7 @@ ATOM GridElement::RegisterWindowClass(HINSTANCE instance)
 	return RegisterClass(&wc);
 }
 
-LRESULT CALLBACK GridElement::ProcessMessage(HWND window, UINT message, WPARAM wParam, LPARAM lParam) {
+LRESULT GridElement::ProcessMessage(HWND window, UINT message, WPARAM wParam, LPARAM lParam) {
 	RECT rect;
 	RECT range = { -10, -10, 10, 10 };
 	GetClientRect(window, &rect);
