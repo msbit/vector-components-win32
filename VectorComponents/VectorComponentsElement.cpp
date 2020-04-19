@@ -41,7 +41,7 @@ LRESULT CALLBACK VectorComponentsElement::ProcessMessage(HWND window, UINT messa
 	{
 	case WM_CREATE:
 	{
-		HINSTANCE instance = ((CREATESTRUCT*)lParam)->hInstance;
+		HINSTANCE instance = (HINSTANCE)GetWindowLongPtr(window, GWLP_HINSTANCE);
 		CreateWindow(L"button", L"A",
 			WS_VISIBLE | WS_CHILD | BS_AUTORADIOBUTTON | WS_GROUP,
 			left, padding + (0 * controlHeight), controlWidth, controlHeight,
