@@ -62,7 +62,8 @@ LRESULT CALLBACK VectorComponentsElement::ProcessMessage(HWND window, UINT messa
 			WS_VISIBLE | WS_CHILD,
 			gridRect.left, gridRect.top, gridRect.right - gridRect.left, gridRect.bottom - gridRect.top,
 			window, (HMENU)IDC_GRID, instance, gridElement);
-		break;
+
+		return 0;
 	}
 	case WM_COMMAND:
 	{
@@ -72,28 +73,30 @@ LRESULT CALLBACK VectorComponentsElement::ProcessMessage(HWND window, UINT messa
 			if (IsDlgButtonChecked(window, IDC_RADIO_A)) {
 				selectedVector = selected_vector_t::VECTOR_A;
 			}
-			break;
+
+			return 0;
 		}
 		case IDC_RADIO_B:
 		{
 			if (IsDlgButtonChecked(window, IDC_RADIO_B)) {
 				selectedVector = selected_vector_t::VECTOR_B;
 			}
-			break;
+
+			return 0;
 		}
 		case IDC_CHECK_ROTATE:
 		{
 			rotate = IsDlgButtonChecked(window, IDC_CHECK_ROTATE);
-			break;
+
+			return 0;
 		}
 		case IDC_CHECK_JITTER:
 		{
 			jitter = IsDlgButtonChecked(window, IDC_CHECK_JITTER);
-			break;
-		}
-		}
 
-		return DefWindowProc(window, message, wParam, lParam);
+			return 0;
+		}
+		}
 	}
 	case WM_SIZE:
 	case WM_SIZING:
@@ -104,26 +107,25 @@ LRESULT CALLBACK VectorComponentsElement::ProcessMessage(HWND window, UINT messa
 		SetWindowPos(GetDlgItem(window, IDC_CHECK_JITTER), HWND_TOP, left, padding + (3 * controlHeight), 0, 0, SWP_NOSIZE);
 		SetWindowPos(GetDlgItem(window, IDC_GRID), HWND_TOP, gridRect.left, gridRect.top,
 			gridRect.right - gridRect.left, gridRect.bottom - gridRect.top, 0);
-		break;
+
+		return 0;
 	}
 	case WM_TIMER:
 	{
 		update();
 
 		PostMessage(GetDlgItem(window, IDC_GRID), message, wParam, lParam);
-		break;
+
+		return 0;
 	}
 	case WM_DESTROY:
 	{
 		PostQuitMessage(0);
-		break;
-	}
-	default:
-	{
-		return DefWindowProc(window, message, wParam, lParam);
+
+		return 0;
 	}
 	}
-	return 0;
+	return DefWindowProc(window, message, wParam, lParam);
 }
 
 

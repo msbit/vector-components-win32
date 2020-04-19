@@ -20,42 +20,51 @@ LRESULT GridElement::ProcessMessage(HWND window, UINT message, WPARAM wParam, LP
 	{
 	case WM_CREATE:
 	{
-		D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &factory);
+		if (FAILED(D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &factory))) {
+			return -1;
+		}
+
 		auto size = D2D1::SizeU(rect.right, rect.bottom);
-		factory->CreateHwndRenderTarget(
-			D2D1::RenderTargetProperties(),
-			D2D1::HwndRenderTargetProperties(window, size),
-			&renderTarget);
+		if (FAILED(factory->CreateHwndRenderTarget(D2D1::RenderTargetProperties(), D2D1::HwndRenderTargetProperties(window, size), &renderTarget))) {
+			Util::SafeRelease(&factory);
+			return -1;
+		}
+
 		const auto color = D2D1::ColorF(1.0f, 1.0f, 0);
-		renderTarget->CreateSolidColorBrush(color, &brush);
-		break;
+		if (FAILED(renderTarget->CreateSolidColorBrush(color, &brush))) {
+			Util::SafeRelease(&renderTarget);
+			Util::SafeRelease(&factory);
+			return -1;
+		}
+
+		return 0;
 	}
 	case WM_DESTROY:
 	{
-		brush->Release();
-		renderTarget->Release();
-		factory->Release();
-		break;
+		Util::SafeRelease(&brush);
+		Util::SafeRelease(&renderTarget);
+		Util::SafeRelease(&factory);
+		return 0;
 	}
 	case WM_LBUTTONDOWN:
 	{
 		if (Util::outsideRect(&rect, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam))) {
-			break;
+			return 0;
 		}
 
 		getParent(window)->updateVectorFromMessage(&rect, lParam);
 
 		mouseHeld = true;
-		break;
+		return 0;
 	}
 	case WM_MOUSEMOVE:
 	{
 		if (!mouseHeld || Util::outsideRect(&rect, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam))) {
-			break;
+			return 0;
 		}
 
 		getParent(window)->updateVectorFromMessage(&rect, lParam);
-		break;
+		return 0;
 	}
 	case WM_LBUTTONUP:
 	{
@@ -66,12 +75,18 @@ LRESULT GridElement::ProcessMessage(HWND window, UINT message, WPARAM wParam, LP
 		getParent(window)->updateVectorFromMessage(&rect, lParam);
 
 		mouseHeld = false;
-		break;
+		return 0;
 	}
 	case WM_PAINT:
 	{
+		if (renderTarget == nullptr) {
+			return -1;
+		}
+
 		PAINTSTRUCT ps;
-		const auto context = BeginPaint(window, &ps);
+		if (nullptr == BeginPaint(window, &ps)) {
+			return -1;
+		}
 
 		renderTarget->BeginDraw();
 
@@ -81,29 +96,28 @@ LRESULT GridElement::ProcessMessage(HWND window, UINT message, WPARAM wParam, LP
 
 		getParent(window)->drawVectors(renderTarget, &rect, &range);
 
-		renderTarget->EndDraw();
+		if (FAILED(renderTarget->EndDraw())) {
+			return -1;
+		}
 
 		EndPaint(window, &ps);
 
-		break;
+		return 0;
 	}
 	case WM_SIZE:
 	case WM_SIZING:
 	{
-		auto size = D2D1::SizeU(rect.right, rect.bottom);
+		if (FAILED(renderTarget->Resize(D2D1::SizeU(rect.right, rect.bottom)))) {
+			return -1;
+		}
 
-		renderTarget->Resize(size);
-		break;
+		return 0;
 	}
 	case WM_TIMER:
 	{
 		InvalidateRect(window, &rect, 1);
-		break;
-	}
-	default:
-	{
-		return DefWindowProc(window, message, wParam, lParam);
+		return 0;
 	}
 	}
-	return 0;
+	return DefWindowProc(window, message, wParam, lParam);
 }

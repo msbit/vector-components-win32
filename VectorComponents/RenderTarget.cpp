@@ -11,8 +11,15 @@ namespace RenderTarget {
 		ID2D1SolidColorBrush* majorBrush;
 		ID2D1SolidColorBrush* minorBrush;
 
-		renderTarget->CreateSolidColorBrush(D2D1::ColorF(0.5f, 0.5f, 0.5f), &majorBrush);
-		renderTarget->CreateSolidColorBrush(D2D1::ColorF(0.82421875f, 0.82421875f, 0.82421875f), &minorBrush);
+		if (FAILED(renderTarget->CreateSolidColorBrush(D2D1::ColorF(0.5f, 0.5f, 0.5f), &majorBrush))) {
+			return;
+		}
+
+		if (FAILED(renderTarget->CreateSolidColorBrush(D2D1::ColorF(0.82421875f, 0.82421875f, 0.82421875f), &minorBrush))) {
+			Util::SafeRelease(&majorBrush);
+			return;
+		}
+
 		for (auto x = range->left; x <= range->right; x++) {
 			const auto canvasX = Util::scale((float)range->left, (float)range->right, (float)rect->left, (float)rect->right, (float)x);
 			renderTarget->DrawLine({ canvasX, (float)rect->top }, { canvasX, (float)rect->bottom }, x == 0 ? majorBrush : minorBrush);
@@ -23,13 +30,15 @@ namespace RenderTarget {
 			renderTarget->DrawLine({ (float)rect->left, canvasY }, { (float)rect->right, canvasY }, y == 0 ? majorBrush : minorBrush);
 		}
 
-		minorBrush->Release();
-		majorBrush->Release();
+		Util::SafeRelease(&minorBrush);
+		Util::SafeRelease(&majorBrush);
 	}
 
 	void drawVector(ID2D1HwndRenderTarget* renderTarget, RECT* rect, std::tuple<float, float> vector, RECT* range, D2D1::ColorF colour) {
 		ID2D1SolidColorBrush* brush;
-		renderTarget->CreateSolidColorBrush(colour, &brush);
+		if (FAILED(renderTarget->CreateSolidColorBrush(colour, &brush))) {
+			return;
+		}
 
 		const auto x = std::get<0>(vector);
 		const auto y = std::get<1>(vector);
@@ -42,9 +51,20 @@ namespace RenderTarget {
 		ID2D1Factory* factory;
 		renderTarget->GetFactory(&factory);
 		ID2D1PathGeometry* geometry;
-		factory->CreatePathGeometry(&geometry);
+		if (FAILED(factory->CreatePathGeometry(&geometry))) {
+			Util::SafeRelease(&factory);
+			Util::SafeRelease(&brush);
+			return;
+		}
+
 		ID2D1GeometrySink* sink;
-		geometry->Open(&sink);
+		if (FAILED(geometry->Open(&sink))) {
+			Util::SafeRelease(&geometry);
+			Util::SafeRelease(&factory);
+			Util::SafeRelease(&brush);
+			return;
+		}
+
 		sink->BeginFigure({ canvasX, canvasY }, D2D1_FIGURE_BEGIN_FILLED);
 
 		const auto angle = atan2f(y, x) + (float)M_PI;
@@ -60,13 +80,19 @@ namespace RenderTarget {
 
 		sink->EndFigure(D2D1_FIGURE_END_CLOSED);
 
-		sink->Close();
+		if (FAILED(sink->Close())) {
+			Util::SafeRelease(&sink);
+			Util::SafeRelease(&geometry);
+			Util::SafeRelease(&factory);
+			Util::SafeRelease(&brush);
+			return;
+		}
 
 		renderTarget->FillGeometry(geometry, brush);
 
-		factory->Release();
-		sink->Release();
-		geometry->Release();
-		brush->Release();
+		Util::SafeRelease(&sink);
+		Util::SafeRelease(&geometry);
+		Util::SafeRelease(&factory);
+		Util::SafeRelease(&brush);
 	}
 }
