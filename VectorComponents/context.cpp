@@ -2,9 +2,9 @@
 #include <cmath>
 #include <tuple>
 
-#include "context.h"
-#include "framework.h"
-#include "util.h"
+#include "Context.h"
+#include "Framework.h"
+#include "Util.h"
 
 namespace context {
 	void drawGrid(HDC context, RECT* rect, RECT* range) {

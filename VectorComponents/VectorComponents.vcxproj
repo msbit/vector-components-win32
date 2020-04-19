@@ -154,22 +154,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="context.h" />
-    <ClInclude Include="framework.h" />
+    <ClInclude Include="Context.h" />
+    <ClInclude Include="Framework.h" />
     <ClInclude Include="grid.h" />
-    <ClInclude Include="renderTarget.h" />
+    <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="util.h" />
-    <ClInclude Include="vector.h" />
+    <ClInclude Include="Targetver.h" />
+    <ClInclude Include="Util.h" />
+    <ClInclude Include="Vector.h" />
     <ClInclude Include="VectorComponents.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="context.cpp" />
+    <ClCompile Include="Context.cpp" />
     <ClCompile Include="grid.cpp" />
-    <ClCompile Include="renderTarget.cpp" />
-    <ClCompile Include="util.cpp" />
-    <ClCompile Include="vector.cpp" />
+    <ClCompile Include="RenderTarget.cpp" />
+    <ClCompile Include="Util.cpp" />
+    <ClCompile Include="Vector.cpp" />
     <ClCompile Include="VectorComponents.cpp" />
   </ItemGroup>
   <ItemGroup>

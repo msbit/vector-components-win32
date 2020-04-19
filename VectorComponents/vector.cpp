@@ -1,7 +1,7 @@
 #include <cmath>
 #include <tuple>
 
-#include "vector.h"
+#include "Vector.h"
 
 namespace vector {
 	float dotProduct(std::tuple<float, float> a, std::tuple<float, float> b) {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "framework.h"
+#include "Framework.h"
 
 namespace util {
 	void outputDebug(const char*, ...);

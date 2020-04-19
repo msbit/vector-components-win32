@@ -2,9 +2,9 @@
 #include <cmath>
 #include <tuple>
 
-#include "framework.h"
-#include "renderTarget.h"
-#include "util.h"
+#include "Framework.h"
+#include "RenderTarget.h"
+#include "Util.h"
 
 namespace renderTarget {
 	void drawGrid(ID2D1HwndRenderTarget* renderTarget, RECT* rect, RECT* range) {

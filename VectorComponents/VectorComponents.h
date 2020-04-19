@@ -1,6 +1,6 @@
 #pragma once
 
-#include "resource.h"
+#include "Resource.h"
 
 namespace VectorComponents {
 	void drawVectors(ID2D1HwndRenderTarget*, RECT*, RECT*);

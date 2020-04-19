@@ -5,11 +5,11 @@
 #include <windowsx.h>
 
 #include "grid.h"
-#include "framework.h"
+#include "Framework.h"
 #include "VectorComponents.h"
-#include "renderTarget.h"
-#include "util.h"
-#include "vector.h"
+#include "RenderTarget.h"
+#include "Util.h"
+#include "Vector.h"
 
 #define MAX_LOADSTRING 100
 

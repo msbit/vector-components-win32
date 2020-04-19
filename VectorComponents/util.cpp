@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "framework.h"
+#include "Framework.h"
 
 namespace util {
 	bool outsideRect(const RECT* rect, long x, long y) {

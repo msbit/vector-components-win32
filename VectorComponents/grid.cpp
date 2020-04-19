@@ -1,10 +1,10 @@
 #include <windowsx.h>
 
-#include "framework.h"
+#include "Framework.h"
 #include "grid.h"
-#include "renderTarget.h"
-#include "resource.h"
-#include "util.h"
+#include "RenderTarget.h"
+#include "Resource.h"
+#include "Util.h"
 #include "VectorComponents.h"
 
 bool VectorComponents::grid::mouseHeld;
