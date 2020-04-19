@@ -67,7 +67,7 @@ namespace VectorComponents::grid {
 		}
 		case WM_LBUTTONDOWN:
 		{
-			if (util::outsideRect(&rect, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam))) {
+			if (Util::outsideRect(&rect, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam))) {
 				break;
 			}
 
@@ -78,7 +78,7 @@ namespace VectorComponents::grid {
 		}
 		case WM_MOUSEMOVE:
 		{
-			if (!mouseHeld || util::outsideRect(&rect, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam))) {
+			if (!mouseHeld || Util::outsideRect(&rect, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam))) {
 				break;
 			}
 
@@ -87,7 +87,7 @@ namespace VectorComponents::grid {
 		}
 		case WM_LBUTTONUP:
 		{
-			if (util::outsideRect(&rect, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam))) {
+			if (Util::outsideRect(&rect, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam))) {
 				break;
 			}
 
@@ -105,7 +105,7 @@ namespace VectorComponents::grid {
 
 			renderTarget->Clear(D2D1::ColorF(GetSysColor(COLOR_WINDOW)));
 
-			renderTarget::drawGrid(renderTarget, &rect, &range);
+			RenderTarget::drawGrid(renderTarget, &rect, &range);
 			VectorComponents::drawVectors(renderTarget, &rect, &range);
 
 			renderTarget->EndDraw();

@@ -2,7 +2,7 @@
 
 #include "Framework.h"
 
-namespace util {
+namespace Util {
 	bool outsideRect(const RECT* rect, long x, long y) {
 		if (x < rect->left) {
 			return true;

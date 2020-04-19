@@ -220,30 +220,30 @@ namespace VectorComponents {
 		}
 
 		if (vectorASet) {
-			renderTarget::drawVector(renderTarget, rect, vectorA, range, { 0.0f, 0.0f, 1.0f });
-			renderTarget::drawVector(renderTarget, rect, vector::normalise(vectorA), range, { 0.0f, 0.0f, 0.0f });
-			renderTarget::drawVector(renderTarget, rect, vector::perp(vectorA), range, { 0.0f, 0.0f, 0.0f });
+			RenderTarget::drawVector(renderTarget, rect, vectorA, range, { 0.0f, 0.0f, 1.0f });
+			RenderTarget::drawVector(renderTarget, rect, Vector::normalise(vectorA), range, { 0.0f, 0.0f, 0.0f });
+			RenderTarget::drawVector(renderTarget, rect, Vector::perp(vectorA), range, { 0.0f, 0.0f, 0.0f });
 		}
 
 		if (vectorBSet) {
-			renderTarget::drawVector(renderTarget, rect, vectorB, range, { 0.0f, 1.0f, 0.0f });
-			renderTarget::drawVector(renderTarget, rect, vector::normalise(vectorB), range, { 0.0f, 0.0f, 0.0f });
-			renderTarget::drawVector(renderTarget, rect, vector::perp(vectorB), range, { 0.0f, 0.0f, 0.0f });
+			RenderTarget::drawVector(renderTarget, rect, vectorB, range, { 0.0f, 1.0f, 0.0f });
+			RenderTarget::drawVector(renderTarget, rect, Vector::normalise(vectorB), range, { 0.0f, 0.0f, 0.0f });
+			RenderTarget::drawVector(renderTarget, rect, Vector::perp(vectorB), range, { 0.0f, 0.0f, 0.0f });
 		}
 
 		if (vectorASet && vectorBSet) {
-			const auto perpB = vector::perp(vectorB);
-			const auto normB = vector::normalise(vectorB);
-			const auto aPerpB = vector::dotProduct(vectorA, perpB);
-			const auto aNormB = vector::dotProduct(vectorA, normB);
-			renderTarget::drawVector(renderTarget, rect, vector::scalarMultiple(perpB, aPerpB), range, { 1.0f, 0.0f, 0.0f });
-			renderTarget::drawVector(renderTarget, rect, vector::scalarMultiple(normB, aNormB), range, { 1.0f, 0.0f, 0.0f });
+			const auto perpB = Vector::perp(vectorB);
+			const auto normB = Vector::normalise(vectorB);
+			const auto aPerpB = Vector::dotProduct(vectorA, perpB);
+			const auto aNormB = Vector::dotProduct(vectorA, normB);
+			RenderTarget::drawVector(renderTarget, rect, Vector::scalarMultiple(perpB, aPerpB), range, { 1.0f, 0.0f, 0.0f });
+			RenderTarget::drawVector(renderTarget, rect, Vector::scalarMultiple(normB, aNormB), range, { 1.0f, 0.0f, 0.0f });
 		}
 	}
 
 	void update() {
 
-		const auto magnitude = vector::magnitude(vectorA);
+		const auto magnitude = Vector::magnitude(vectorA);
 		if (magnitude > 0) {
 			if (rotate) {
 				auto angle = atan2f(std::get<1>(vectorA), std::get<0>(vectorA));
@@ -264,8 +264,8 @@ namespace VectorComponents {
 		const auto canvasX = GET_X_LPARAM(lParam);
 		const auto canvasY = GET_Y_LPARAM(lParam);
 
-		const auto x = util::scale((float)rect->left, (float)rect->right, (float)-10, (float)10, (float)canvasX);
-		const auto y = util::scale((float)rect->top, (float)rect->bottom, (float)-10, (float)10, (float)canvasY);
+		const auto x = Util::scale((float)rect->left, (float)rect->right, (float)-10, (float)10, (float)canvasX);
+		const auto y = Util::scale((float)rect->top, (float)rect->bottom, (float)-10, (float)10, (float)canvasY);
 
 		if (selectedVector == selected_vector_t::VECTOR_A) {
 			std::get<0>(vectorA) = x;

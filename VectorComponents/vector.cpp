@@ -3,7 +3,7 @@
 
 #include "Vector.h"
 
-namespace vector {
+namespace Vector {
 	float dotProduct(std::tuple<float, float> a, std::tuple<float, float> b) {
 		return std::get<0>(a) * std::get<0>(b) + std::get<1>(a) * std::get<1>(b);
 	}
