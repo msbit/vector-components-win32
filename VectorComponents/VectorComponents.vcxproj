@@ -169,7 +169,6 @@
     <ClInclude Include="VectorComponentsElement.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BaseWindow.cpp" />
     <ClCompile Include="Context.cpp" />
     <ClCompile Include="GridElement.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
