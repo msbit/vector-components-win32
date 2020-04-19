@@ -38,23 +38,6 @@ VectorComponentsElement::~VectorComponentsElement() {
 	delete gridElement;
 }
 
-LRESULT CALLBACK VectorComponentsElement::Loop(HWND window, UINT message, WPARAM wParam, LPARAM lParam) {
-	VectorComponentsElement* _this;
-	if (message == WM_NCCREATE) {
-		_this = (VectorComponentsElement*)((CREATESTRUCT*)lParam)->lpCreateParams;
-		SetWindowLongPtr(window, GWLP_USERDATA, (LONG_PTR)_this);
-	}
-	else {
-		_this = (VectorComponentsElement*)GetWindowLongPtr(window, GWLP_USERDATA);
-	}
-	if (_this) {
-		return _this->ProcessMessage(window, message, wParam, lParam);
-	}
-	else {
-		return DefWindowProc(window, message, wParam, lParam);
-	}
-}
-
 LRESULT CALLBACK VectorComponentsElement::ProcessMessage(HWND window, UINT message, WPARAM wParam, LPARAM lParam) {
 	RECT fullRect;
 	RECT gridRect;

@@ -2,12 +2,13 @@
 
 #include <tuple>
 
+#include "BaseWindow.h"
+#include "Framework.h"
 #include "GridElement.h"
-#include "framework.h"
 
 enum class selected_vector_t { NONE, VECTOR_A, VECTOR_B };
 
-class VectorComponentsElement {
+class VectorComponentsElement : BaseWindow<VectorComponentsElement, ATOM> {
 	selected_vector_t selectedVector = selected_vector_t::NONE;
 	GridElement* gridElement = nullptr;
 	bool rotate = false;
@@ -21,9 +22,8 @@ public:
 
 	void updateVectorFromMessage(RECT*, LPARAM);
 	void drawVectors(ID2D1HwndRenderTarget*, RECT*, RECT*);
+	LRESULT CALLBACK ProcessMessage(HWND, UINT, WPARAM, LPARAM);
 
 private:
-	static LRESULT CALLBACK Loop(HWND, UINT, WPARAM, LPARAM);
-	LRESULT CALLBACK ProcessMessage(HWND, UINT, WPARAM, LPARAM);
 	void update();
 };
