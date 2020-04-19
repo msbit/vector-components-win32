@@ -28,7 +28,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance,
 	LoadString(instance, IDS_APP_TITLE, VectorComponents::title, MAX_LOADSTRING);
 	LoadString(instance, IDC_VECTORCOMPONENTS, VectorComponents::windowClass, MAX_LOADSTRING);
 	VectorComponents::vectorComponentsElement = new VectorComponentsElement(instance);
-	VectorComponents::vectorComponentsElement->RegisterWindowClass(instance);
 
 	if (!VectorComponents::initInstance(instance, cmdShow))
 	{

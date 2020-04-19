@@ -20,9 +20,8 @@ protected:
 		if (_this) {
 			return _this->ProcessMessage(window, message, wParam, lParam);
 		}
-		else {
-			return DefWindowProc(window, message, wParam, lParam);
-		}
+
+		return DefWindowProc(window, message, wParam, lParam);
 	}
 
 	virtual LRESULT ProcessMessage(HWND, UINT, WPARAM, LPARAM) = 0;

@@ -12,15 +12,6 @@
 #define MAX_LOADSTRING 100
 
 VectorComponentsElement::VectorComponentsElement(HINSTANCE instance) {
-	gridElement = new GridElement();
-	gridElement->RegisterWindowClass(instance);
-}
-
-VectorComponentsElement::~VectorComponentsElement() {
-	delete gridElement;
-}
-
-ATOM VectorComponentsElement::RegisterWindowClass(HINSTANCE instance) {
 	WCHAR windowClass[MAX_LOADSTRING];
 
 	LoadString(instance, IDC_VECTORCOMPONENTS, windowClass, MAX_LOADSTRING);
@@ -38,8 +29,15 @@ ATOM VectorComponentsElement::RegisterWindowClass(HINSTANCE instance) {
 		.lpszClassName = windowClass
 	};
 
-	return RegisterClass(&wc);
+	RegisterClass(&wc);
+
+	gridElement = new GridElement(instance);
 }
+
+VectorComponentsElement::~VectorComponentsElement() {
+	delete gridElement;
+}
+
 LRESULT CALLBACK VectorComponentsElement::Loop(HWND window, UINT message, WPARAM wParam, LPARAM lParam) {
 	VectorComponentsElement* _this;
 	if (message == WM_NCCREATE) {
@@ -130,7 +128,6 @@ LRESULT CALLBACK VectorComponentsElement::ProcessMessage(HWND window, UINT messa
 		}
 
 		return DefWindowProc(window, message, wParam, lParam);
-		break;
 	}
 	case WM_SIZE:
 	case WM_SIZING:

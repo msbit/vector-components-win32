@@ -9,7 +9,7 @@ enum class selected_vector_t { NONE, VECTOR_A, VECTOR_B };
 
 class VectorComponentsElement {
 	selected_vector_t selectedVector = selected_vector_t::NONE;
-	GridElement* gridElement;
+	GridElement* gridElement = nullptr;
 	bool rotate = false;
 	bool jitter = false;
 
@@ -19,7 +19,6 @@ public:
 	VectorComponentsElement(HINSTANCE);
 	~VectorComponentsElement();
 
-	ATOM RegisterWindowClass(HINSTANCE);
 	void updateVectorFromMessage(RECT*, LPARAM);
 	void drawVectors(ID2D1HwndRenderTarget*, RECT*, RECT*);
 

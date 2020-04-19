@@ -10,12 +10,12 @@ class GridElement;
 #define MAX_LOADSTRING 100
 
 class GridElement : BaseWindow<GridElement, VectorComponentsElement> {
-	bool mouseHeld;
-	ID2D1Factory* factory;
-	ID2D1HwndRenderTarget* renderTarget;
-	ID2D1SolidColorBrush* brush;
+	bool mouseHeld = false;
+	ID2D1Factory* factory = nullptr;
+	ID2D1HwndRenderTarget* renderTarget = nullptr;
+	ID2D1SolidColorBrush* brush = nullptr;
 
 public:
-	ATOM RegisterWindowClass(HINSTANCE instance);
+	GridElement(HINSTANCE);
 	LRESULT ProcessMessage(HWND, UINT, WPARAM, LPARAM);
 };

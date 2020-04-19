@@ -7,8 +7,7 @@
 #include "Util.h"
 #include "VectorComponentsElement.h"
 
-ATOM GridElement::RegisterWindowClass(HINSTANCE instance)
-{
+GridElement::GridElement(HINSTANCE instance) {
 	WCHAR windowClass[MAX_LOADSTRING];
 
 	LoadString(instance, IDC_GRID, windowClass, MAX_LOADSTRING);
@@ -26,7 +25,7 @@ ATOM GridElement::RegisterWindowClass(HINSTANCE instance)
 		.lpszClassName = windowClass
 	};
 
-	return RegisterClass(&wc);
+	RegisterClass(&wc);
 }
 
 LRESULT GridElement::ProcessMessage(HWND window, UINT message, WPARAM wParam, LPARAM lParam) {
