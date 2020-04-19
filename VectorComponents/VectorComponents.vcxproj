@@ -163,6 +163,7 @@
     <ClInclude Include="Util.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="VectorComponents.h" />
+    <ClInclude Include="VectorComponentsElement.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Context.cpp" />
@@ -171,6 +172,7 @@
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="VectorComponents.cpp" />
+    <ClCompile Include="VectorComponentsElement.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="VectorComponents.rc" />

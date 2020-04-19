@@ -5,7 +5,7 @@
 #include "RenderTarget.h"
 #include "Resource.h"
 #include "Util.h"
-#include "VectorComponents.h"
+#include "VectorComponentsElement.h"
 
 ATOM GridElement::RegisterWindowClass(HINSTANCE instance)
 {
@@ -81,7 +81,10 @@ LRESULT CALLBACK GridElement::ProcessMessage(HWND window, UINT message, WPARAM w
 			break;
 		}
 
-		VectorComponents::updateVectorFromMessage(&rect, lParam);
+		HWND parentWindow = (HWND)GetWindowLongPtr(window, GWLP_HWNDPARENT);
+		VectorComponentsElement* parent = (VectorComponentsElement*)GetWindowLongPtr(parentWindow, GWLP_USERDATA);
+
+		parent->updateVectorFromMessage(&rect, lParam);
 
 		mouseHeld = true;
 		break;
@@ -92,7 +95,10 @@ LRESULT CALLBACK GridElement::ProcessMessage(HWND window, UINT message, WPARAM w
 			break;
 		}
 
-		VectorComponents::updateVectorFromMessage(&rect, lParam);
+		HWND parentWindow = (HWND)GetWindowLongPtr(window, GWLP_HWNDPARENT);
+		VectorComponentsElement* parent = (VectorComponentsElement*)GetWindowLongPtr(parentWindow, GWLP_USERDATA);
+
+		parent->updateVectorFromMessage(&rect, lParam);
 		break;
 	}
 	case WM_LBUTTONUP:
@@ -101,7 +107,10 @@ LRESULT CALLBACK GridElement::ProcessMessage(HWND window, UINT message, WPARAM w
 			break;
 		}
 
-		VectorComponents::updateVectorFromMessage(&rect, lParam);
+		HWND parentWindow = (HWND)GetWindowLongPtr(window, GWLP_HWNDPARENT);
+		VectorComponentsElement* parent = (VectorComponentsElement*)GetWindowLongPtr(parentWindow, GWLP_USERDATA);
+
+		parent->updateVectorFromMessage(&rect, lParam);
 
 		mouseHeld = false;
 		break;
@@ -116,7 +125,11 @@ LRESULT CALLBACK GridElement::ProcessMessage(HWND window, UINT message, WPARAM w
 		renderTarget->Clear(D2D1::ColorF(GetSysColor(COLOR_WINDOW)));
 
 		RenderTarget::drawGrid(renderTarget, &rect, &range);
-		VectorComponents::drawVectors(renderTarget, &rect, &range);
+
+		HWND parentWindow = (HWND)GetWindowLongPtr(window, GWLP_HWNDPARENT);
+		VectorComponentsElement* parent = (VectorComponentsElement*)GetWindowLongPtr(parentWindow, GWLP_USERDATA);
+
+		parent->drawVectors(renderTarget, &rect, &range);
 
 		renderTarget->EndDraw();
 
