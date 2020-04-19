@@ -2,6 +2,9 @@
 
 #include "BaseWindow.h"
 #include "Framework.h"
+
+class GridElement;
+
 #include "VectorComponentsElement.h"
 
 #define MAX_LOADSTRING 100

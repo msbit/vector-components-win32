@@ -5,7 +5,6 @@
 #include "GridElement.h"
 #include "framework.h"
 
-
 enum class selected_vector_t { NONE, VECTOR_A, VECTOR_B };
 
 class VectorComponentsElement {
