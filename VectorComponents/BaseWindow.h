@@ -37,7 +37,6 @@ protected:
 			.hInstance = instance,
 			.hIcon = LoadIcon(instance, MAKEINTRESOURCE(iconId)),
 			.hCursor = LoadCursor(nullptr, IDC_ARROW),
-			.hbrBackground = (HBRUSH)COLOR_WINDOW,
 			.hbrBackground = backgroundBrush,
 			.lpszMenuName = MAKEINTRESOURCE(classId),
 			.lpszClassName = className
