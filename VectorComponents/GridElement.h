@@ -1,10 +1,12 @@
 #pragma once
 
+#include "BaseWindow.h"
 #include "Framework.h"
+#include "VectorComponentsElement.h"
 
 #define MAX_LOADSTRING 100
 
-class GridElement {
+class GridElement : BaseWindow<GridElement, VectorComponentsElement> {
 	bool mouseHeld;
 	ID2D1Factory* factory;
 	ID2D1HwndRenderTarget* renderTarget;
@@ -13,7 +15,6 @@ class GridElement {
 public:
 	ATOM RegisterWindowClass(HINSTANCE instance);
 
-private:
-	static LRESULT CALLBACK Loop(HWND, UINT, WPARAM, LPARAM);
+protected:
 	LRESULT CALLBACK ProcessMessage(HWND, UINT, WPARAM, LPARAM);
 };

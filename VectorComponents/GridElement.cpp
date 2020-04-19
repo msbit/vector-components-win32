@@ -29,26 +29,6 @@ ATOM GridElement::RegisterWindowClass(HINSTANCE instance)
 	return RegisterClass(&wc);
 }
 
-LRESULT CALLBACK GridElement::Loop(HWND window, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	GridElement* _this;
-
-	if (message == WM_NCCREATE) {
-		_this = (GridElement*)((CREATESTRUCT*)lParam)->lpCreateParams;
-		SetWindowLongPtr(window, GWLP_USERDATA, (LONG_PTR)_this);
-	}
-	else {
-		_this = (GridElement*)GetWindowLongPtr(window, GWLP_USERDATA);
-	}
-
-	if (_this) {
-		return _this->ProcessMessage(window, message, wParam, lParam);
-	}
-	else {
-		return DefWindowProc(window, message, wParam, lParam);
-	}
-}
-
 LRESULT CALLBACK GridElement::ProcessMessage(HWND window, UINT message, WPARAM wParam, LPARAM lParam) {
 	RECT rect;
 	RECT range = { -10, -10, 10, 10 };
