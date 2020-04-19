@@ -156,7 +156,7 @@
   <ItemGroup>
     <ClInclude Include="Context.h" />
     <ClInclude Include="Framework.h" />
-    <ClInclude Include="grid.h" />
+    <ClInclude Include="GridElement.h" />
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Targetver.h" />
@@ -166,7 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Context.cpp" />
-    <ClCompile Include="grid.cpp" />
+    <ClCompile Include="GridElement.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="Vector.cpp" />

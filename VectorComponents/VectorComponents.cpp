@@ -4,12 +4,12 @@
 #include <vector>
 #include <windowsx.h>
 
-#include "grid.h"
 #include "Framework.h"
-#include "VectorComponents.h"
+#include "GridElement.h"
 #include "RenderTarget.h"
 #include "Util.h"
 #include "Vector.h"
+#include "VectorComponents.h"
 
 #define MAX_LOADSTRING 100
 

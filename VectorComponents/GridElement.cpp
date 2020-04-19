@@ -1,7 +1,7 @@
 #include <windowsx.h>
 
 #include "Framework.h"
-#include "grid.h"
+#include "GridElement.h"
 #include "RenderTarget.h"
 #include "Resource.h"
 #include "Util.h"
