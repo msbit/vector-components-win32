@@ -16,6 +16,8 @@ class VectorComponentsElement : BaseWindow<VectorComponentsElement, ATOM> {
 
 	std::tuple<float, float> vectorA;
 	std::tuple<float, float> vectorB;
+
+	void update();
 public:
 	VectorComponentsElement(HINSTANCE);
 	~VectorComponentsElement();
@@ -23,7 +25,4 @@ public:
 	void updateVectorFromMessage(RECT*, LPARAM);
 	void drawVectors(ID2D1HwndRenderTarget*, RECT*, RECT*);
 	LRESULT CALLBACK ProcessMessage(HWND, UINT, WPARAM, LPARAM);
-
-private:
-	void update();
 };

@@ -8,24 +8,7 @@
 #include "VectorComponentsElement.h"
 
 GridElement::GridElement(HINSTANCE instance) {
-	WCHAR windowClass[MAX_LOADSTRING];
-
-	LoadString(instance, IDC_GRID, windowClass, MAX_LOADSTRING);
-
-	WNDCLASS wc = {
-		.style = CS_HREDRAW | CS_VREDRAW,
-		.lpfnWndProc = Loop,
-		.cbClsExtra = 0,
-		.cbWndExtra = 0,
-		.hInstance = instance,
-		.hIcon = LoadIcon(instance, MAKEINTRESOURCE(IDI_VECTORCOMPONENTS)),
-		.hCursor = LoadCursor(nullptr, IDC_ARROW),
-		.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1),
-		.lpszMenuName = MAKEINTRESOURCEW(IDC_GRID),
-		.lpszClassName = windowClass
-	};
-
-	RegisterClass(&wc);
+	Register(instance, IDC_GRID, IDI_VECTORCOMPONENTS);
 }
 
 LRESULT GridElement::ProcessMessage(HWND window, UINT message, WPARAM wParam, LPARAM lParam) {

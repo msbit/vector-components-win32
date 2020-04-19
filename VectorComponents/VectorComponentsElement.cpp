@@ -12,24 +12,7 @@
 #define MAX_LOADSTRING 100
 
 VectorComponentsElement::VectorComponentsElement(HINSTANCE instance) {
-	WCHAR windowClass[MAX_LOADSTRING];
-
-	LoadString(instance, IDC_VECTORCOMPONENTS, windowClass, MAX_LOADSTRING);
-
-	WNDCLASS wc = {
-		.style = CS_HREDRAW | CS_VREDRAW,
-		.lpfnWndProc = Loop,
-		.cbClsExtra = 0,
-		.cbWndExtra = 0,
-		.hInstance = instance,
-		.hIcon = LoadIcon(instance, MAKEINTRESOURCE(IDI_VECTORCOMPONENTS)),
-		.hCursor = LoadCursor(nullptr, IDC_ARROW),
-		.hbrBackground = (HBRUSH)COLOR_WINDOW,
-		.lpszMenuName = MAKEINTRESOURCEW(IDC_VECTORCOMPONENTS),
-		.lpszClassName = windowClass
-	};
-
-	RegisterClass(&wc);
+	Register(instance, IDC_VECTORCOMPONENTS, IDI_VECTORCOMPONENTS);
 
 	gridElement = new GridElement(instance);
 }
