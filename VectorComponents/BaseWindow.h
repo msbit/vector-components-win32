@@ -24,5 +24,14 @@ protected:
 		return DefWindowProc(window, message, wParam, lParam);
 	}
 
+	Parent* getParent(HWND window) {
+		HWND parentWindow = GetParent(window);
+		if (parentWindow == nullptr) {
+			return nullptr;
+		}
+
+		return (Parent*)GetWindowLongPtr(parentWindow, GWLP_USERDATA);
+	}
+
 	virtual LRESULT ProcessMessage(HWND, UINT, WPARAM, LPARAM) = 0;
 };

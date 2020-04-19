@@ -60,10 +60,7 @@ LRESULT GridElement::ProcessMessage(HWND window, UINT message, WPARAM wParam, LP
 			break;
 		}
 
-		HWND parentWindow = (HWND)GetWindowLongPtr(window, GWLP_HWNDPARENT);
-		VectorComponentsElement* parent = (VectorComponentsElement*)GetWindowLongPtr(parentWindow, GWLP_USERDATA);
-
-		parent->updateVectorFromMessage(&rect, lParam);
+		getParent(window)->updateVectorFromMessage(&rect, lParam);
 
 		mouseHeld = true;
 		break;
@@ -74,10 +71,7 @@ LRESULT GridElement::ProcessMessage(HWND window, UINT message, WPARAM wParam, LP
 			break;
 		}
 
-		HWND parentWindow = (HWND)GetWindowLongPtr(window, GWLP_HWNDPARENT);
-		VectorComponentsElement* parent = (VectorComponentsElement*)GetWindowLongPtr(parentWindow, GWLP_USERDATA);
-
-		parent->updateVectorFromMessage(&rect, lParam);
+		getParent(window)->updateVectorFromMessage(&rect, lParam);
 		break;
 	}
 	case WM_LBUTTONUP:
@@ -86,10 +80,7 @@ LRESULT GridElement::ProcessMessage(HWND window, UINT message, WPARAM wParam, LP
 			break;
 		}
 
-		HWND parentWindow = (HWND)GetWindowLongPtr(window, GWLP_HWNDPARENT);
-		VectorComponentsElement* parent = (VectorComponentsElement*)GetWindowLongPtr(parentWindow, GWLP_USERDATA);
-
-		parent->updateVectorFromMessage(&rect, lParam);
+		getParent(window)->updateVectorFromMessage(&rect, lParam);
 
 		mouseHeld = false;
 		break;
@@ -105,10 +96,7 @@ LRESULT GridElement::ProcessMessage(HWND window, UINT message, WPARAM wParam, LP
 
 		RenderTarget::drawGrid(renderTarget, &rect, &range);
 
-		HWND parentWindow = (HWND)GetWindowLongPtr(window, GWLP_HWNDPARENT);
-		VectorComponentsElement* parent = (VectorComponentsElement*)GetWindowLongPtr(parentWindow, GWLP_USERDATA);
-
-		parent->drawVectors(renderTarget, &rect, &range);
+		getParent(window)->drawVectors(renderTarget, &rect, &range);
 
 		renderTarget->EndDraw();
 
